@@ -1,2 +1,3 @@
-# search-module
-A system wide search module.
+# Search Module
+
+A search indexing module.

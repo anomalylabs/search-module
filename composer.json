@@ -1,0 +1,23 @@
+{
+    "name": "anomaly/search-module",
+    "type": "streams-addon",
+    "description": "A search indexing module.",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "AnomalyLabs",
+            "email": "hello@anomaly.is"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Anomaly\\SearchModule\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
