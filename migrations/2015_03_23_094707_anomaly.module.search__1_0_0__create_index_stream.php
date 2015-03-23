@@ -28,7 +28,14 @@ class AnomalyModuleSearch_1_0_0_CreateIndexStream extends Migration
      * @var array
      */
     protected $assignments = [
-        'title'
+        'title'    => [
+            'required' => true
+        ],
+        'category' => [
+            'required' => true
+        ],
+        'description',
+        'keywords'
     ];
 
 }
