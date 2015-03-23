@@ -20,4 +20,13 @@ class SearchModule extends Module
      */
     protected $navigation = 'streams::navigation.system';
 
+    /**
+     * The module sections.
+     *
+     * @var array
+     */
+    protected $sections = [
+        'search'
+    ];
+
 }
