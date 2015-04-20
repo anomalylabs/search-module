@@ -14,11 +14,11 @@ class SearchModule extends Module
 {
 
     /**
-     * The navigation group.
+     * The module icon.
      *
      * @var string
      */
-    protected $navigation = 'streams::navigation.system';
+    protected $icon = 'search';
 
     /**
      * The module sections.

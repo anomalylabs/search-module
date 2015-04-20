@@ -1,7 +1,7 @@
 {
     "name": "anomaly/search-module",
     "type": "streams-addon",
-    "description": "A search indexing module.",
+    "description": "System wide indexing module.",
     "version": "1.0.0",
     "authors": [
         {

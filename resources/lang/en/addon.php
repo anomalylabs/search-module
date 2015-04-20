@@ -2,7 +2,7 @@
 
 return [
     'name'        => 'Search',
-    'description' => 'A search indexing module.',
+    'description' => 'System wide indexing module.',
     'section'     => [
         'search' => 'Search Index'
     ]
