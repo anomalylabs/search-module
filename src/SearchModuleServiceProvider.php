@@ -22,4 +22,34 @@ class SearchModuleServiceProvider extends AddonServiceProvider
         'admin/search' => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@index'
     ];
 
+    /**
+     * The addon bindings.
+     *
+     * @var array
+     */
+    protected $bindings = [
+        'Anomaly\SearchModule\Index\IndexModel'                       => 'Anomaly\SearchModule\Index\IndexModel',
+        'Anomaly\Streams\Platform\Model\Search\SearchIndexEntryModel' => 'Anomaly\SearchModule\Index\IndexModel'
+    ];
+
+    /**
+     * The addon singletons.
+     *
+     * @var array
+     */
+    protected $singletons = [
+        'Anomaly\SearchModule\Index\Contract\IndexRepositoryInterface' => 'Anomaly\SearchModule\Index\IndexRepository'
+    ];
+
+    /**
+     * The addon listeners.
+     *
+     * @var array
+     */
+    protected $listeners = [
+        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved' => [
+            'Anomaly\SearchModule\Index\Listener\IndexEntry'
+        ]
+    ];
+
 }

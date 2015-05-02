@@ -18,8 +18,9 @@ class AnomalyModuleSearch_1_0_0_CreateIndexStream extends Migration
      * @var array
      */
     protected $stream = [
-        'slug'   => 'index',
-        'locked' => true
+        'slug'         => 'index',
+        'translatable' => true,
+        'locked'       => true
     ];
 
     /**
@@ -28,13 +29,16 @@ class AnomalyModuleSearch_1_0_0_CreateIndexStream extends Migration
      * @var array
      */
     protected $assignments = [
-        'title'    => [
+        'title'       => [
+            'required'     => true,
+            'translatable' => true
+        ],
+        'category'    => [
             'required' => true
         ],
-        'category' => [
-            'required' => true
+        'description' => [
+            'translatable' => true
         ],
-        'description',
         'keywords'
     ];
 
