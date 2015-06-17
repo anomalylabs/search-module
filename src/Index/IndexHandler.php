@@ -36,7 +36,7 @@ class IndexHandler
      *
      * @param EntryInterface $entry
      */
-    public function handle(EntryInterface $entry)
+    public function index(EntryInterface $entry)
     {
     }
 }

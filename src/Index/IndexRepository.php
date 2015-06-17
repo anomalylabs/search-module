@@ -1,5 +1,6 @@
 <?php namespace Anomaly\SearchModule\Index;
 
+use Anomaly\SearchModule\Index\Contract\IndexInterface;
 use Anomaly\SearchModule\Index\Contract\IndexRepositoryInterface;
 
 /**
@@ -28,5 +29,19 @@ class IndexRepository implements IndexRepositoryInterface
     public function __construct(IndexModel $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * Create a new index entry.
+     *
+     * @param array $attributes
+     * @return IndexInterface
+     */
+    public function save(array $attributes)
+    {
+        $this->model->create(
+            [
+            ]
+        );
     }
 }

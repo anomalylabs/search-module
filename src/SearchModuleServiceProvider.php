@@ -48,7 +48,7 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      */
     protected $listeners = [
         'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved' => [
-            'Anomaly\SearchModule\Index\Listener\IndexEntry'
+            'Anomaly\SearchModule\Indexer\Listener\IndexEntry'
         ]
     ];
 

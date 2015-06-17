@@ -19,7 +19,9 @@ class AnomalyModuleSearch_1_0_0_CreateSearchFields extends Migration
      */
     protected $fields = [
         'title'       => 'anomaly.field_type.text',
+        'locale'      => 'anomaly.field_type.text',
         'category'    => 'anomaly.field_type.text',
+        'permission'  => 'anomaly.field_type.text',
         'description' => 'anomaly.field_type.textarea',
         'keywords'    => 'anomaly.field_type.tags'
     ];

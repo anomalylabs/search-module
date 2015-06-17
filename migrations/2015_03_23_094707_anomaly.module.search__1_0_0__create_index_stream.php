@@ -29,17 +29,18 @@ class AnomalyModuleSearch_1_0_0_CreateIndexStream extends Migration
      * @var array
      */
     protected $assignments = [
-        'title'       => [
-            'required'     => true,
-            'translatable' => true
-        ],
-        'category'    => [
+        'title'    => [
             'required' => true
         ],
-        'description' => [
-            'translatable' => true
+        'locale'   => [
+            'required' => true
         ],
-        'keywords'
+        'category' => [
+            'required' => true
+        ],
+        'description',
+        'keywords',
+        'public'
     ];
 
 }

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\SearchModule\Index\Listener;
+<?php namespace Anomaly\SearchModule\Indexer\Listener;
 
 use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\SearchModule\Index\Listener
+ * @package       Anomaly\SearchModule\Indexer\Listener
  */
 class IndexEntry
 {
@@ -23,10 +23,6 @@ class IndexEntry
      */
     public function handle(EntryWasSaved $event)
     {
-        $entry = $event->getEntry();
-
-        if (class_exists($indexer = substr(get_class($entry), 0, -5) . 'Indexer')) {
-            app()->call($indexer . '@handle', compact('entry'));
-        }
+        $this->dispatch(new \Anomaly\SearchModule\Indexer\Command\IndexEntry($event->getEntry()));
     }
 }

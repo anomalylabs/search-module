@@ -11,4 +11,11 @@
 interface IndexRepositoryInterface
 {
 
+    /**
+     * Create a new index entry.
+     *
+     * @param array $attributes
+     * @return IndexInterface
+     */
+    public function save(array $attributes);
 }
