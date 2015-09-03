@@ -2,54 +2,31 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
-/**
- * Class SearchModuleServiceProvider
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\SearchModule
- */
 class SearchModuleServiceProvider extends AddonServiceProvider
 {
 
-    /**
-     * The addon routes.
-     *
-     * @var array
-     */
-    protected $routes = [
-        'admin/search' => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@index'
-    ];
+    protected $plugins = [];
 
-    /**
-     * The addon bindings.
-     *
-     * @var array
-     */
-    protected $bindings = [
-        'Anomaly\SearchModule\Index\IndexModel'                       => 'Anomaly\SearchModule\Index\IndexModel',
-        'Anomaly\Streams\Platform\Model\Search\SearchIndexEntryModel' => 'Anomaly\SearchModule\Index\IndexModel'
-    ];
+    protected $routes = [];
 
-    /**
-     * The addon singletons.
-     *
-     * @var array
-     */
-    protected $singletons = [
-        'Anomaly\SearchModule\Index\Contract\IndexRepositoryInterface' => 'Anomaly\SearchModule\Index\IndexRepository'
-    ];
+    protected $middleware = [];
 
-    /**
-     * The addon listeners.
-     *
-     * @var array
-     */
-    protected $listeners = [
-        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved' => [
-            'Anomaly\SearchModule\Indexer\Listener\IndexEntry'
-        ]
-    ];
+    protected $listeners = [];
+
+    protected $providers = [];
+
+    protected $singletons = [];
+
+    protected $overrides = [];
+
+    protected $mobile = [];
+
+    public function register()
+    {
+    }
+
+    public function map()
+    {
+    }
 
 }
