@@ -2,31 +2,35 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
+/**
+ * Class SearchModuleServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\SearchModule
+ */
 class SearchModuleServiceProvider extends AddonServiceProvider
 {
 
-    protected $plugins = [];
+    /**
+     * Additional addon providers.
+     *
+     * @var array
+     */
+    protected $providers = [
+        'Mmanos\Search\SearchServiceProvider'
+    ];
 
-    protected $routes = [];
-
-    protected $middleware = [];
-
-    protected $listeners = [];
-
-    protected $providers = [];
-
-    protected $singletons = [];
-
-    protected $overrides = [];
-
-    protected $mobile = [];
-
-    public function register()
-    {
-    }
-
-    public function map()
-    {
-    }
+    /**
+     * The addon listeners.
+     *
+     * @var array
+     */
+    protected $listeners = [
+        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved' => [
+            'Anomaly\SearchModule\Index\Listener\IndexEntry'
+        ]
+    ];
 
 }
