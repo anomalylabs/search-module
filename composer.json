@@ -1,6 +1,9 @@
 {
     "name": "anomaly/search-module",
     "type": "streams-addon",
+    "require": {
+        "mmanos/laravel-search": "~1.0"
+    },
     "autoload": {
         "psr-4": {
             "Anomaly\\SearchModule\\": "src/"
