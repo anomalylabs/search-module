@@ -3,5 +3,8 @@
 return [
     'title'       => 'Search',
     'name'        => 'Search Module',
-    'description' => ''
+    'description' => '',
+    'section'     => [
+        'index' => 'Search Index'
+    ]
 ];

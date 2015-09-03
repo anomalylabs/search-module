@@ -2,6 +2,14 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 
+/**
+ * Class SearchModule
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\SearchModule
+ */
 class SearchModule extends Module
 {
 
@@ -10,7 +18,7 @@ class SearchModule extends Module
      *
      * @var string
      */
-    protected $navigation = 'addon';
+    protected $navigation = 'search';
 
     /**
      * The module sections.
@@ -18,7 +26,15 @@ class SearchModule extends Module
      * @var array
      */
     protected $sections = [
-        'example'
+        'index' => [
+            'buttons' => [
+                [
+                    'icon' => 'refresh',
+                    'text' => 'Rebuild',
+                    'href' => 'admin/search/rebuild'
+                ]
+            ]
+        ]
     ];
 
 }
