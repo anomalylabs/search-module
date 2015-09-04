@@ -1,5 +1,6 @@
 <?php namespace Anomaly\SearchModule\Http\Controller\Admin;
 
+use Anomaly\SearchModule\Index\Table\IndexTableBuilder;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 
 /**
@@ -13,8 +14,19 @@ use Anomaly\Streams\Platform\Http\Controller\AdminController;
 class IndexController extends AdminController
 {
 
-    public function index()
+    /**
+     * Return the index.
+     *
+     * @param IndexTableBuilder $table
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function index(IndexTableBuilder $table)
     {
-        dd(app('search')->search(null, 'CEO')->get());
+        return $table->render();
+    }
+
+    public function rebuild()
+    {
+        die("Rebuilding...");
     }
 }

@@ -21,7 +21,7 @@ class SearchModule extends Module
      *
      * @var string
      */
-    protected $navigation = 'search';
+    protected $icon = 'search';
 
     /**
      * The module sections.

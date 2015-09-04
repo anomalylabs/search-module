@@ -36,6 +36,16 @@ class SearchModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
+     * The addon routes.
+     *
+     * @var array
+     */
+    protected $routes = [
+        'admin/search'         => 'Anomaly\SearchModule\Http\Controller\Admin\IndexController@index',
+        'admin/search/rebuild' => 'Anomaly\SearchModule\Http\Controller\Admin\IndexController@rebuild'
+    ];
+
+    /**
      * Register the service provider.
      *
      * @param Repository  $config

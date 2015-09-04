@@ -1,0 +1,29 @@
+{% extends "streams::table/table" %}
+
+{% block no_results %}
+
+    <div class="panel">
+        <div class="panel-body">
+
+            {% if table.filters.active.isEmpty() %}
+
+                <h3>Basic Usage</h3>
+
+                <p>To start searching you can simply enter your search terms and that's it!</p>
+
+                {#<h3>Advanced Usage</h3>
+
+                <p>You can perform advanced searches using a <code>field:"value"</code> syntax with different operators.</p>
+
+                <pre>name:"Ryan" email:"@pyrocms.com"</pre>#}
+
+            {% else %}
+
+                {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
