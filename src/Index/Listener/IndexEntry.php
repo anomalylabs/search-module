@@ -1,8 +1,10 @@
 <?php namespace Anomaly\SearchModule\Index\Listener;
 
+use Anomaly\SearchModule\Index\EntryIndex;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Illuminate\Contracts\Container\Container;
-use Mmanos\Search\Index;
+use Mmanos\Search\Search;
 
 /**
  * Class IndexEntry
@@ -16,22 +18,29 @@ class IndexEntry
 {
 
     /**
-     * The search index.
+     * The search utility.
      *
-     * @var Index
+     * @var Search
      */
-    protected $index;
+    protected $search;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
 
     /**
      * Create a new IndexEntry instance.
      *
+     * @param Search    $search
      * @param Container $container
      */
-    public function __construct(Container $container)
+    public function __construct(Search $search, Container $container)
     {
-        config()->set('search', config('anomaly.module.search::search'));
-
-        $this->index = $container->make('search');
+        $this->search    = $search;
+        $this->container = $container;
     }
 
     /**
@@ -43,21 +52,27 @@ class IndexEntry
     {
         $entry = $event->getEntry();
 
-        if ($entry->getStreamNamespace() !== 'staff') {
+        if (!$index = $this->resolveEntryIndex($entry)) {
             return;
         }
 
-        $this->index->delete("{$entry->getStreamNamespace()}.{$entry->getStreamSlug()}::{$entry->getId()}");
-        $this->index->insert(
-            "{$entry->getStreamNamespace()}.{$entry->getStreamSlug()}::{$entry->getId()}",
-            [
-                'title' => $entry->title
-            ],
-            [
-                'title' => $entry->title,
-                'resource_type' => get_class($entry),
-                'resource_id'   => $entry->getId()
-            ]
-        );
+        $index->insert();
+    }
+
+    /**
+     * Return a new instance of the entry index.
+     *
+     * @param EntryInterface $entry
+     * @return EntryIndex|null
+     */
+    protected function resolveEntryIndex(EntryInterface $entry)
+    {
+        $index = get_class($entry) . 'SearchIndex';
+
+        if (class_exists($index) || $this->container->bound($index)) {
+            return $this->container->make($index, ['reference' => $entry, 'search' => $this->search]);
+        }
+
+        return null;
     }
 }

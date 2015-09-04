@@ -1,6 +1,8 @@
 <?php namespace Anomaly\SearchModule;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SearchModuleServiceProvider
@@ -33,4 +35,23 @@ class SearchModuleServiceProvider extends AddonServiceProvider
         ]
     ];
 
+    /**
+     * Register the service provider.
+     *
+     * @param Repository  $config
+     * @param Application $application
+     */
+    public function register(Repository $config, Application $application)
+    {
+        $config->set('search', $config->get('anomaly.module.search::search'));
+
+        $config->set(
+            'search.connections.zend.path',
+            str_replace(
+                'storage::',
+                $application->getStoragePath() . '/',
+                $config->get('search.connections.zend.path')
+            )
+        );
+    }
 }

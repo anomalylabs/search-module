@@ -42,7 +42,7 @@ return [
     'connections'   => [
         'zend'          => [
             'driver' => 'zend',
-            'path'   => storage_path() . '/search'
+            'path'   => 'storage::search/zend'
         ],
         'elasticsearch' => [
             'driver' => 'elasticsearch',

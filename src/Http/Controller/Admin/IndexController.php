@@ -15,6 +15,6 @@ class IndexController extends AdminController
 
     public function index()
     {
-        dd(app('search')->search(null, 'Test')->get());
+        dd(app('search')->search(null, 'CEO')->get());
     }
 }

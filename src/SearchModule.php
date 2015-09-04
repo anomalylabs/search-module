@@ -1,6 +1,9 @@
 <?php namespace Anomaly\SearchModule;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 /**
  * Class SearchModule
@@ -37,4 +40,25 @@ class SearchModule extends Module
         ]
     ];
 
+    /**
+     * Fired after module is installed.
+     *
+     * @param Filesystem  $filesystem
+     * @param Application $application
+     */
+    public function onInstalled(Filesystem $filesystem, Application $application)
+    {
+        $filesystem->makeDirectory($application->getStoragePath('search/zend'), 0777, true, true);
+    }
+
+    /**
+     * Fired after module is uninstalled.
+     *
+     * @param Filesystem  $filesystem
+     * @param Application $application
+     */
+    public function onUninstalled(Filesystem $filesystem, Application $application)
+    {
+        $filesystem->deleteDirectory($application->getStoragePath('search/zend'));
+    }
 }
