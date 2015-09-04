@@ -33,8 +33,8 @@ class SearchModule extends Module
             'buttons' => [
                 [
                     'icon' => 'refresh',
-                    'text' => 'Rebuild',
-                    'href' => 'admin/search/rebuild'
+                    'href' => 'admin/search/rebuild',
+                    'text' => 'module::button.rebuild'
                 ]
             ]
         ]

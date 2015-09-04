@@ -102,7 +102,6 @@ class EntryIndex
     public function insert()
     {
         $this->debug();
-        $this->delete();
 
         $this->search->insert(
             $this->indexId(),
@@ -116,7 +115,7 @@ class EntryIndex
      */
     public function delete()
     {
-        $this->search->delete($this->indexId());
+        $this->search->where('id', $this->indexId())->delete();
     }
 
     /**

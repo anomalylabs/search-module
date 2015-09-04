@@ -7,14 +7,14 @@ use Illuminate\Contracts\Container\Container;
 use Mmanos\Search\Search;
 
 /**
- * Class IndexEntry
+ * Class InsertReference
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\SearchModule\Index\Listener
  */
-class IndexEntry
+class InsertReference
 {
 
     /**
@@ -32,7 +32,7 @@ class IndexEntry
     protected $container;
 
     /**
-     * Create a new IndexEntry instance.
+     * Create a new InsertReference instance.
      *
      * @param Search    $search
      * @param Container $container

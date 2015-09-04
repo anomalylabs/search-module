@@ -30,8 +30,11 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $listeners = [
-        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved' => [
-            'Anomaly\SearchModule\Index\Listener\IndexEntry'
+        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved'   => [
+            'Anomaly\SearchModule\Index\Listener\InsertReference'
+        ],
+        'Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted' => [
+            'Anomaly\SearchModule\Index\Listener\DeleteReference'
         ]
     ];
 
