@@ -20,12 +20,6 @@
     "support": {
         "email": "support@anomaly.is"
     },
-    "require": {
-        "mmanos/laravel-search": "~1.0",
-        "zendframework/zendsearch": "dev-master",
-        "elasticsearch/elasticsearch": "1.0.*@dev",
-        "algolia/algoliasearch-client-php": "1.1.*"
-    },
     "autoload": {
         "psr-4": {
             "Anomaly\\SearchModule\\": "src/"
