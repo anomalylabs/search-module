@@ -1,6 +1,5 @@
 <?php namespace Anomaly\SearchModule\Index\Table;
 
-use Anomaly\SearchModule\Index\Table\Action\Delete;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -14,25 +13,34 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 class IndexTableBuilder extends TableBuilder
 {
 
+    /**
+     * The table filters.
+     *
+     * @var array
+     */
     protected $filters = [
         'term' => [
             'filter'      => 'input',
-            'placeholder' => 'Search...'
+            'placeholder' => 'module::field.term.placeholder'
         ]
     ];
 
-    protected $columns = [
-        'entry.id',
-        'entry.title',
-        'entry.description'
-    ];
-
+    /**
+     * The table actions.
+     *
+     * @var array
+     */
     protected $actions = [
         'delete' => [
-            'handler' => Delete::class
+            'handler' => 'Anomaly\SearchModule\Index\Table\Action\Delete'
         ]
     ];
 
+    /**
+     * The table options.
+     *
+     * @var array
+     */
     protected $options = [
         'table_view' => 'module::admin/search/table',
         'filters'    => [

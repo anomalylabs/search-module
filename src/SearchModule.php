@@ -30,13 +30,13 @@ class SearchModule extends Module
      */
     protected $sections = [
         'index' => [
-            'buttons' => [
+            /*'buttons' => [
                 [
                     'icon' => 'refresh',
                     'href' => 'admin/search/rebuild',
                     'text' => 'module::button.rebuild'
                 ]
-            ]
+            ]*/
         ]
     ];
 

@@ -31,10 +31,10 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      */
     protected $listeners = [
         'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved'   => [
-            'Anomaly\SearchModule\Index\Listener\InsertReference'
+            'Anomaly\SearchModule\Index\Listener\InsertItem'
         ],
         'Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted' => [
-            'Anomaly\SearchModule\Index\Listener\DeleteReference'
+            'Anomaly\SearchModule\Index\Listener\DeleteItem'
         ]
     ];
 

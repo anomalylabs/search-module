@@ -7,9 +7,9 @@
 
             {% if table.filters.active.isEmpty() %}
 
-                <h3>Basic Usage</h3>
+                <h3>{{ trans('module::message.basic_usage') }}</h3>
 
-                <p>To start searching you can simply enter your search terms and that's it!</p>
+                {{ trans('module::message.basic_usage_text')|raw }}
 
                 {#<h3>Advanced Usage</h3>
 
