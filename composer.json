@@ -1,6 +1,25 @@
 {
     "name": "anomaly/search-module",
     "type": "streams-addon",
+    "description": "A system wide search and indexing system.",
+    "keywords": [
+        "streams module",
+        "streams addon",
+        "module"
+    ],
+    "homepage": "http://anomaly.is/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AnomalyLabs, Inc.",
+            "email": "hello@anomaly.is",
+            "homepage": "http://anomaly.is/",
+            "role": "Owner"
+        }
+    ],
+    "support": {
+        "email": "support@anomaly.is"
+    },
     "require": {
         "mmanos/laravel-search": "~1.0",
         "zendframework/zendsearch": "dev-master",
@@ -10,6 +29,11 @@
     "autoload": {
         "psr-4": {
             "Anomaly\\SearchModule\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-1.0/master": "1.0.x-dev"
         }
     }
 }
