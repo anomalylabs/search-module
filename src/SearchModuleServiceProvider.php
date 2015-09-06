@@ -25,6 +25,15 @@ class SearchModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
+     * The addon plugins.
+     *
+     * @var array
+     */
+    protected $plugins = [
+        'Anomaly\SearchModule\SearchModulePlugin'
+    ];
+
+    /**
      * The addon listeners.
      *
      * @var array

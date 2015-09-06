@@ -225,7 +225,7 @@ class Query
 	public function paginate($num = 15)
 	{
 		$paginator = App::make('paginator');
-		
+
 		$page = (int) Input::get('page', 1);
 		
 		$this->limit($num, ($page - 1) * $num);
