@@ -3,7 +3,7 @@
 use Anomaly\SearchModule\Index\IndexManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
@@ -56,9 +56,9 @@ class DeleteItem
     /**
      * Handle the event.
      *
-     * @param EntryWasSaved $event
+     * @param EntryWasDeleted $event
      */
-    public function handle(EntryWasSaved $event)
+    public function handle(EntryWasDeleted $event)
     {
         $entry = $event->getEntry();
 
