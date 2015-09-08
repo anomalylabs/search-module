@@ -1,5 +1,7 @@
 <?php namespace Anomaly\SearchModule\Index\Table;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+
 /**
  * Class IndexTableColumns
  *
@@ -27,7 +29,9 @@ class IndexTableColumns
                 [
                     'heading' => 'module::field.object.name',
                     'value'   => function ($item) {
-                        return str_singular(trans($item['reference']->getStreamName()));
+                        if ($item['reference'] instanceof EntryInterface) {
+                            return str_singular(trans($item['reference']->getStreamName()));
+                        }
                     }
                 ]
             ]
