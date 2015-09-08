@@ -127,7 +127,7 @@ class IndexManager
             [
                 $this->reference->getStreamNamespace(),
                 $this->reference->getStreamSlug(),
-                $this->reference->getEntryId()
+                $this->reference->getId()
             ]
         );
     }
@@ -223,7 +223,7 @@ class IndexManager
     {
         $mandatory = [
             'reference_type' => get_class($this->reference),
-            'reference_id'   => $this->reference->getEntryId()
+            'reference_id'   => $this->reference->getId()
         ];
 
         $extra = $this->getExtra();
