@@ -25,6 +25,15 @@ class SearchModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
+     * The addon commands.
+     *
+     * @var array
+     */
+    protected $commands = [
+        'Anomaly\SearchModule\Console\Rebuild'
+    ];
+
+    /**
      * The addon plugins.
      *
      * @var array
