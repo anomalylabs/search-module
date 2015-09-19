@@ -67,12 +67,12 @@ class SearchModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
-     * Register the service provider.
+     * Boot the service provider.
      *
      * @param Repository  $config
      * @param Application $application
      */
-    public function register(Repository $config, Application $application)
+    public function boot(Repository $config, Application $application)
     {
         $config->set('search', $config->get('anomaly.module.search::search'));
 
