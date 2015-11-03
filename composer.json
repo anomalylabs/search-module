@@ -19,10 +19,5 @@
     ],
     "support": {
         "email": "support@anomaly.is"
-    },
-    "autoload": {
-        "psr-4": {
-            "Anomaly\\SearchModule\\": "src/"
-        }
     }
 }
