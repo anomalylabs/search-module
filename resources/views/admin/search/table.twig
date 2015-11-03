@@ -11,12 +11,6 @@
 
                 {{ trans('module::message.basic_usage_text')|raw }}
 
-                {#<h3>Advanced Usage</h3>
-
-                <p>You can perform advanced searches using a <code>field:"value"</code> syntax with different operators.</p>
-
-                <pre>name:"Ryan" email:"@pyrocms.com"</pre>#}
-
             {% else %}
 
                 {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}

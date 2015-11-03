@@ -3,7 +3,7 @@
 return [
     'title'       => 'Search',
     'name'        => 'Search Module',
-    'description' => '',
+    'description' => 'A powerful search index for the Streams Platform.',
     'section'     => [
         'index' => 'Search Index'
     ]

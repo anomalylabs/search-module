@@ -30,6 +30,7 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $commands = [
+        'Anomaly\SearchModule\Search\Console\Destroy',
         'Anomaly\SearchModule\Search\Console\Rebuild'
     ];
 

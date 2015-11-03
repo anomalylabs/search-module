@@ -1,3 +1,3 @@
 # Search Module
 
-A system wide search module.
+A powerful search index for the Streams Platform.

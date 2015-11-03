@@ -1,10 +1,10 @@
 {
     "name": "anomaly/search-module",
     "type": "streams-addon",
-    "description": "A system wide search and indexing system.",
+    "description": "A powerful search index for the Streams Platform.",
     "keywords": [
-        "streams module",
-        "streams addon",
+        "module",
+        "search",
         "module"
     ],
     "homepage": "http://anomaly.is/",
@@ -23,11 +23,6 @@
     "autoload": {
         "psr-4": {
             "Anomaly\\SearchModule\\": "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-1.0/master": "1.0.x-dev"
         }
     }
 }
