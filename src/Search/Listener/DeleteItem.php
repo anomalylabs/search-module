@@ -1,6 +1,6 @@
-<?php namespace Anomaly\SearchModule\Index\Listener;
+<?php namespace Anomaly\SearchModule\Search\Listener;
 
-use Anomaly\SearchModule\Index\IndexManager;
+use Anomaly\SearchModule\Search\SearchManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted;
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\SearchModule\Index\Listener
+ * @package       Anomaly\SearchModule\Search\Listener
  */
 class DeleteItem
 {
@@ -35,7 +35,7 @@ class DeleteItem
     /**
      * The index manager.
      *
-     * @var IndexManager
+     * @var SearchManager
      */
     protected $manager;
 
@@ -44,9 +44,9 @@ class DeleteItem
      *
      * @param Repository      $config
      * @param AddonCollection $addons
-     * @param IndexManager    $manager
+     * @param SearchManager    $manager
      */
-    public function __construct(Repository $config, AddonCollection $addons, IndexManager $manager)
+    public function __construct(Repository $config, AddonCollection $addons, SearchManager $manager)
     {
         $this->config  = $config;
         $this->addons  = $addons;

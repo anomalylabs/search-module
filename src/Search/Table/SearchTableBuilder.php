@@ -1,16 +1,16 @@
-<?php namespace Anomaly\SearchModule\Index\Table;
+<?php namespace Anomaly\SearchModule\Search\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class IndexTableBuilder
+ * Class SearchTableBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\SearchModule\Index\Table
+ * @package       Anomaly\SearchModule\Search\Table
  */
-class IndexTableBuilder extends TableBuilder
+class SearchTableBuilder extends TableBuilder
 {
 
     /**
@@ -32,7 +32,19 @@ class IndexTableBuilder extends TableBuilder
      */
     protected $actions = [
         'delete' => [
-            'handler' => 'Anomaly\SearchModule\Index\Table\Action\Delete'
+            'handler' => 'Anomaly\SearchModule\Search\Table\Action\Delete'
+        ]
+    ];
+
+    /**
+     * The table buttons.
+     *
+     * @var array
+     */
+    protected $buttons = [
+        'view' => [
+            'href'   => '{entry.view_path}',
+            'target' => '_blank'
         ]
     ];
 

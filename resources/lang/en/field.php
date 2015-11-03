@@ -1,13 +1,19 @@
 <?php
 
 return [
-    'term'   => [
+    'term'        => [
         'placeholder' => 'Search...'
     ],
-    'title'  => [
+    'title'       => [
         'name' => 'Title'
     ],
-    'object' => [
-        'name' => 'Object'
+    'description' => [
+        'name' => 'Description'
+    ],
+    'keywords'    => [
+        'name' => 'Keywords'
+    ],
+    'collection'  => [
+        'name' => 'Collection'
     ]
 ];

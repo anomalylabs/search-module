@@ -1,4 +1,4 @@
-<?php namespace Anomaly\SearchModule\Index\Table\Action;
+<?php namespace Anomaly\SearchModule\Search\Table\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Mmanos\Search\Index;
@@ -10,7 +10,7 @@ use Mmanos\Search\Search;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\SearchModule\Index\Table\Action
+ * @package       Anomaly\SearchModule\Search\Table\Action
  */
 class Delete extends ActionHandler
 {
@@ -18,7 +18,7 @@ class Delete extends ActionHandler
     /**
      * Delete the selected entries.
      *
-     * @param Search|Index $search
+     * @param Search|Search $search
      * @param array        $selected
      */
     public function handle(Search $search, array $selected)

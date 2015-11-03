@@ -1,26 +1,26 @@
-<?php namespace Anomaly\SearchModule\Index\Table;
+<?php namespace Anomaly\SearchModule\Search\Table;
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Mmanos\Search\Search;
 
 /**
- * Class IndexTableEntries
+ * Class SearchTableEntries
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\SearchModule\Index\Table
+ * @package       Anomaly\SearchModule\Search\Table
  */
-class IndexTableEntries
+class SearchTableEntries
 {
 
     /**
      * Handle the table entries.
      *
-     * @param IndexTableBuilder $builder
-     * @param Search            $search
+     * @param SearchTableBuilder $builder
+     * @param Search             $search
      */
-    public function handle(IndexTableBuilder $builder, Search $search)
+    public function handle(SearchTableBuilder $builder, Search $search)
     {
         $results = [];
 
@@ -32,7 +32,7 @@ class IndexTableEntries
         }
 
         foreach ($results as &$result) {
-            $result['reference'] = (new $result['reference_type'])->find($result['reference_id']);
+            $result['keywords'] = explode(',', array_get($result, 'keywords', ''));
         }
 
         $builder->setTableEntries(new Collection($results));

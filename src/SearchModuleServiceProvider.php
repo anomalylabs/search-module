@@ -30,7 +30,7 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $commands = [
-        'Anomaly\SearchModule\Console\Rebuild'
+        'Anomaly\SearchModule\Search\Console\Rebuild'
     ];
 
     /**
@@ -49,10 +49,10 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      */
     protected $listeners = [
         'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved'   => [
-            'Anomaly\SearchModule\Index\Listener\InsertItem'
+            'Anomaly\SearchModule\Search\Listener\InsertItem'
         ],
         'Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted' => [
-            'Anomaly\SearchModule\Index\Listener\DeleteItem'
+            'Anomaly\SearchModule\Search\Listener\DeleteItem'
         ]
     ];
 
@@ -62,8 +62,8 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $routes = [
-        'admin/search'         => 'Anomaly\SearchModule\Http\Controller\Admin\IndexController@index',
-        'admin/search/rebuild' => 'Anomaly\SearchModule\Http\Controller\Admin\IndexController@rebuild'
+        'admin/search'         => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@index',
+        'admin/search/rebuild' => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@rebuild'
     ];
 
     /**
@@ -74,7 +74,7 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      */
     public function boot(Repository $config, Application $application)
     {
-        $config->set('search', $config->get('anomaly.module.search::search'));
+        $config->set('search', $config->get('anomaly.module.search::engine'));
 
         $config->set(
             'search.connections.zend.path',
