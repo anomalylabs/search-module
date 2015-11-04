@@ -40,7 +40,7 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $plugins = [
-        'Anomaly\SearchModule\SearchModulePlugin'
+        'Anomaly\SearchModule\Search\Plugin\SearchPlugin'
     ];
 
     /**

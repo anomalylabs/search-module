@@ -1,6 +1,6 @@
 <?php namespace Anomaly\SearchModule\Search\Plugin;
 
-use Anomaly\SearchModule\Search\Plugin\Command\GetSearchResults;
+use Anomaly\SearchModule\Search\Plugin\Command\GetResults;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
@@ -23,9 +23,9 @@ class SearchPlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction(
-                'search_results',
+                'search',
                 function ($term, array $options = []) {
-                    return $this->dispatch(new GetSearchResults($term, $options));
+                    return $this->dispatch(new GetResults($term, $options));
                 }
             )
         ];
