@@ -26,9 +26,12 @@ class SearchTableEntries
 
         if ($term = $builder->getTableFilterValue('term')) {
 
-            $search = $search->search(['title', 'description', 'keywords'], $term, ['fuzzy' => 0.3]);
+            $query = $search
+                ->search(['title', 'description', 'keywords'], $term, ['fuzzy' => 0.3]);
 
-            $results = $search->get();
+            $query->search('collection', 'pages', ['required' => false]);
+
+            $results = $query->get();
         }
 
         foreach ($results as &$result) {
