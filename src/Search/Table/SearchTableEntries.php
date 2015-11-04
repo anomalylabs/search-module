@@ -26,7 +26,7 @@ class SearchTableEntries
 
         if ($term = $builder->getTableFilterValue('term')) {
 
-            $search = $search->search(null, $term, ['fuzzy' => 0.2]);
+            $search = $search->search(['title', 'description', 'keywords'], $term, ['fuzzy' => 0.3]);
 
             $results = $search->get();
         }
