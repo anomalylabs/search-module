@@ -60,9 +60,11 @@ class GetResults implements SelfHandling
         $config      = $this->dispatch(new GetAllConfig());
         $collections = array_get($this->parameters, 'collections', []);
 
-        foreach ($config as $configuration) {
-            if (!in_array($collection = array_get($configuration, 'collection'), $collections)) {
-                $query->search('collection', $collection, ['prohibited' => true]);
+        if ($collections) {
+            foreach ($config as $configuration) {
+                if (!in_array($collection = array_get($configuration, 'collection'), $collections)) {
+                    $query->search('collection', $collection, ['prohibited' => true]);
+                }
             }
         }
 
