@@ -45,8 +45,8 @@ class SearchTableColumns
                     }
                 ],
                 [
-                    'heading' => 'module::field.collection.name',
-                    'value'   => 'entry.collection'
+                    'heading' => 'module::field.stream.name',
+                    'value'   => 'entry.stream'
                 ]
             ]
         );

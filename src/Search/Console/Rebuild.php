@@ -33,7 +33,7 @@ class Rebuild extends Command
      *
      * @var string
      */
-    protected $description = 'Rebuild a search collection(s).';
+    protected $description = 'Rebuild a searchable stream(s).';
 
     /**
      * Execute the console command.
@@ -43,7 +43,7 @@ class Rebuild extends Command
      */
     public function fire(ModuleCollection $modules, Repository $config)
     {
-        $rebuild = $this->argument('collection');
+        $rebuild = $this->argument('stream');
 
         /* @var Module $module */
         foreach ($modules->withConfig('search') as $module) {
@@ -52,11 +52,11 @@ class Rebuild extends Command
                 /* @var EntryModel $model */
                 $model = new $model;
 
-                $collection = array_get($search, 'collection', $model->getStreamSlug());
+                $stream = $model->getStreamNamespace() . '.' . $model->getStreamSlug();
 
-                if (!$rebuild || $collection == $rebuild) {
+                if (!$rebuild || $stream == $rebuild) {
 
-                    $this->info('Rebuilding ' . $collection);
+                    $this->info('Rebuilding ' . $stream);
 
                     $this->output->progressStart($model->count());
 
@@ -81,7 +81,7 @@ class Rebuild extends Command
     protected function getArguments()
     {
         return [
-            ['collection', InputArgument::OPTIONAL, 'The collection to rebuild.']
+            ['stream', InputArgument::OPTIONAL, 'The stream to rebuild.']
         ];
     }
 }

@@ -29,7 +29,7 @@ class SearchTableEntries
             $query = $search
                 ->search(['title', 'description', 'keywords'], $term, ['fuzzy' => 0.3]);
 
-            $query->search('collection', 'pages', ['required' => false]);
+            $query->search('stream', 'pages', ['required' => false]);
 
             $results = $query->get();
         }

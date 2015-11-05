@@ -13,7 +13,7 @@ return [
     'keywords'    => [
         'name' => 'Keywords'
     ],
-    'collection'  => [
-        'name' => 'Collection'
+    'stream'  => [
+        'name' => 'Stream'
     ]
 ];

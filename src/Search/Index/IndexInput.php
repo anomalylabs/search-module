@@ -54,7 +54,7 @@ class IndexInput
 
         $this->setId($entry, $config);
         $this->setEnabled($entry, $config);
-        $this->setCollection($entry, $config);
+        $this->setStream($entry, $config);
         $this->setFields($entry, $config);
         $this->setPaths($entry, $config);
         $this->setEntry($entry, $config);
@@ -87,14 +87,14 @@ class IndexInput
     }
 
     /**
-     * Set the collection.
+     * Set the stream.
      *
      * @param EntryInterface $entry
      * @param                $config
      */
-    protected function setCollection(EntryInterface $entry, &$config)
+    protected function setStream(EntryInterface $entry, &$config)
     {
-        $config['fields']['collection'] = array_get($config, 'collection', $entry->getStreamSlug());
+        $config['fields']['stream'] = $entry->getStreamNamespace() . '.' . $entry->getStreamSlug();
     }
 
     /**
@@ -144,7 +144,10 @@ class IndexInput
     {
         $config['fields']['title']       = $this->value->make(array_pull($config, 'title'), $entry);
         $config['fields']['description'] = $this->value->make(array_pull($config, 'description'), $entry);
-        $config['fields']['keywords']    = implode(',', $this->value->make(array_pull($config, 'keywords'), $entry));
+        $config['fields']['keywords']    = implode(
+            ',',
+            (array)$this->value->make(array_pull($config, 'keywords'), $entry)
+        );
     }
 
     /**
