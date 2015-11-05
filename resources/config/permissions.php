@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'search' => [
-        'manage'
+    'index' => [
+        'read',
+        'delete',
+        'rebuild'
     ]
 ];

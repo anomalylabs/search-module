@@ -1,10 +1,12 @@
 <?php
 
 return [
-    'search' => [
-        'label'  => 'Search',
+    'index' => [
+        'label'  => 'Search Index',
         'option' => [
-            'manage' => 'Can manage search engine?'
+            'read'    => 'Can access search index?',
+            'delete'  => 'Can delete index entries?',
+            'rebuild' => 'Can rebuild search index?'
         ]
     ]
 ];
