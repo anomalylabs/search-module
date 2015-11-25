@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use App\Console\Kernel;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -40,10 +41,13 @@ class Rebuild extends Command
      *
      * @param ModuleCollection $modules
      * @param Repository       $config
+     * @param Kernel           $console
      */
-    public function fire(ModuleCollection $modules, Repository $config)
+    public function fire(ModuleCollection $modules, Repository $config, Kernel $console)
     {
         $rebuild = $this->argument('stream');
+
+        $console->call('search:destroy');
 
         /* @var Module $module */
         foreach ($modules->withConfig('search') as $module) {

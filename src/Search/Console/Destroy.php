@@ -39,5 +39,7 @@ class Destroy extends Command
     public function fire(IndexManager $manager)
     {
         $manager->destroy();
+
+        $this->info('Search index destroyed!');
     }
 }

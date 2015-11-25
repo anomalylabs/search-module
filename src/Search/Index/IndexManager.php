@@ -56,10 +56,9 @@ class IndexManager
     {
         $config = $this->input->read($entry, $config);
 
+        $this->search->delete(array_get($config, 'id'));
+
         if (array_get($config, 'enabled', true) === false) {
-
-            $this->search->delete(array_get($config, 'id'));
-
             return;
         }
 
