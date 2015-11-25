@@ -38,6 +38,6 @@ class Destroy extends Command
      */
     public function fire(IndexManager $manager)
     {
-        $manager->delete();
+        $manager->destroy();
     }
 }
