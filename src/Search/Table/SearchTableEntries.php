@@ -26,9 +26,13 @@ class SearchTableEntries
 
         if ($term = $builder->getTableFilterValue('term')) {
 
-            $term = str_replace(['-', '.'], ' ', $term);
+            $options = [];
 
-            $query = $search->search(['title', 'description', 'keywords'], $term, ['fuzzy' => 0.3]);
+            if (!str_contains($term, ['-', '_', '.'])) {
+                $options['fuzzy'] = 0.3;
+            }
+
+            $query = $search->search(['title', 'description', 'keywords'], $term, $options);
 
             $query->search('stream', 'pages', ['required' => false]);
 
