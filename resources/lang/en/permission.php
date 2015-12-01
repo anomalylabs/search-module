@@ -2,7 +2,7 @@
 
 return [
     'index' => [
-        'label'  => 'Search Index',
+        'name'  => 'Search Index',
         'option' => [
             'read'    => 'Can access search index?',
             'delete'  => 'Can delete index entries?',
