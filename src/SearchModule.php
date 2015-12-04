@@ -47,7 +47,9 @@ class SearchModule extends Module
      */
     public function onInstalled(Application $application)
     {
-        mkdir($application->getStoragePath('search/zend'), 0777, true);
+        if (!is_dir($path = $application->getStoragePath('search/zend'))) {
+            mkdir($application->getStoragePath('search/zend'), 0777, true);
+        }
     }
 
     /**
