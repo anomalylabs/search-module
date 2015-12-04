@@ -48,7 +48,7 @@ class SearchModule extends Module
      */
     public function onInstalled(Filesystem $filesystem, Application $application)
     {
-        $filesystem->makeDirectory($application->getStoragePath('search/zend'), 0777, true, true);
+        $filesystem->makeDirectory($application->getStoragePath('search/zend'), 0777, true);
     }
 
     /**
