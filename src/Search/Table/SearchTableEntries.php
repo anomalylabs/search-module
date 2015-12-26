@@ -1,6 +1,7 @@
 <?php namespace Anomaly\SearchModule\Search\Table;
 
 use Anomaly\Streams\Platform\Support\Collection;
+use Collective\Html\HtmlBuilder;
 use Mmanos\Search\Search;
 
 /**
@@ -20,7 +21,7 @@ class SearchTableEntries
      * @param SearchTableBuilder $builder
      * @param Search             $search
      */
-    public function handle(SearchTableBuilder $builder, Search $search)
+    public function handle(SearchTableBuilder $builder, HtmlBuilder $html, Search $search)
     {
         $results = [];
 
@@ -40,7 +41,8 @@ class SearchTableEntries
         }
 
         foreach ($results as &$result) {
-            $result['keywords'] = explode(',', array_get($result, 'keywords', ''));
+            $result['keywords']  = explode(',', array_get($result, 'keywords', ''));
+            $result['edit_link'] = $html->link(array_get($result, 'edit_path'), array_get($result, 'title'));
         }
 
         $builder->setTableEntries(new Collection($results));

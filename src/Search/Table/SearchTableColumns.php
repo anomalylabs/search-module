@@ -22,8 +22,7 @@ class SearchTableColumns
             [
                 [
                     'heading' => 'module::field.title.name',
-                    'wrapper' => '<a href="{{ url("{entry.edit_path}") }}">{value}</a>',
-                    'value'   => 'entry.title'
+                    'value'   => 'entry.edit_link'
                 ],
                 [
                     'heading' => 'module::field.description.name',
