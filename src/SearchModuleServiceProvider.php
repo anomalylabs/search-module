@@ -25,6 +25,15 @@ class SearchModuleServiceProvider extends AddonServiceProvider
     ];
 
     /**
+     * The addon plugins.
+     *
+     * @var array
+     */
+    protected $plugins = [
+        'Anomaly\SearchModule\SearchModulePlugin'
+    ];
+
+    /**
      * The addon commands.
      *
      * @var array
@@ -32,15 +41,6 @@ class SearchModuleServiceProvider extends AddonServiceProvider
     protected $commands = [
         'Anomaly\SearchModule\Search\Console\Destroy',
         'Anomaly\SearchModule\Search\Console\Rebuild'
-    ];
-
-    /**
-     * The addon plugins.
-     *
-     * @var array
-     */
-    protected $plugins = [
-        'Anomaly\SearchModule\Search\Plugin\SearchPlugin'
     ];
 
     /**
