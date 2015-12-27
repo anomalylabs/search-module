@@ -36,6 +36,20 @@ interface SearchItemInterface
     public function getDescription();
 
     /**
+     * Get the edit path.
+     *
+     * @return string
+     */
+    public function getEditPath();
+
+    /**
+     * Get the view path.
+     *
+     * @return string
+     */
+    public function getViewPath();
+
+    /**
      * Get the entry ID.
      *
      * @return int

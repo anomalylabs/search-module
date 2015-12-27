@@ -25,7 +25,7 @@ class SearchTableColumns
             [
                 [
                     'heading' => 'module::field.title.name',
-                    'value'   => 'entry.title'
+                    'value'   => 'entry.edit_link'
                 ],
                 [
                     'heading' => 'module::field.description.name',
