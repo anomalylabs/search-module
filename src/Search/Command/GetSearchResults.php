@@ -89,13 +89,16 @@ class GetSearchResults implements SelfHandling
             ($page - 1) * $perPage
         );
 
-        $paginator = (new LengthAwarePaginator($query->get(), $query->count(), $perPage, $page))
+        $collection = array_map(
+            function ($result) use ($decorator) {
+                return $decorator->decorate(new SearchItem($result));
+            },
+            $query->get()
+        );
+
+        $paginator = (new LengthAwarePaginator($collection, $query->count(), $perPage, $page))
             ->setPath($request->path())
             ->appends($request->all());
-
-        foreach ($paginator->items() as &$result) {
-            $result = $decorator->decorate(new SearchItem($result));
-        }
 
         return $paginator;
     }
