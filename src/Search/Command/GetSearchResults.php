@@ -1,5 +1,6 @@
 <?php namespace Anomaly\SearchModule\Search\Command;
 
+use Anomaly\SearchModule\Search\SearchCollection;
 use Anomaly\SearchModule\Search\SearchCriteria;
 use Anomaly\SearchModule\Search\SearchItem;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -42,11 +43,22 @@ class GetSearchResults implements SelfHandling
         $this->criteria = $criteria;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param ModuleCollection $modules
+     * @param Decorator        $decorator
+     * @param Repository       $config
+     * @param Container        $container
+     * @param Request          $request
+     * @param Search           $search
+     * @return LengthAwarePaginator
+     */
     public function handle(
+        ModuleCollection $modules,
         Decorator $decorator,
         Repository $config,
         Container $container,
-        ModuleCollection $modules,
         Request $request,
         Search $search
     ) {
@@ -89,17 +101,17 @@ class GetSearchResults implements SelfHandling
             ($page - 1) * $perPage
         );
 
-        $collection = array_map(
-            function ($result) use ($decorator) {
-                return $decorator->decorate(new SearchItem($result));
-            },
-            $query->get()
+        $collection = new SearchCollection(
+            array_map(
+                function ($result) use ($decorator) {
+                    return $decorator->decorate(new SearchItem($result));
+                },
+                $query->get()
+            )
         );
 
-        $paginator = (new LengthAwarePaginator($collection, $query->count(), $perPage, $page))
+        return (new LengthAwarePaginator($collection, $query->count(), $perPage, $page))
             ->setPath($request->path())
             ->appends($request->all());
-
-        return $paginator;
     }
 }

@@ -1,5 +1,8 @@
 <?php namespace Anomaly\SearchModule\Search\Table;
 
+use Anomaly\SearchModule\Search\SearchItem;
+use Anomaly\SearchModule\Search\SearchPresenter;
+
 /**
  * Class SearchTableColumns
  *
@@ -22,7 +25,7 @@ class SearchTableColumns
             [
                 [
                     'heading' => 'module::field.title.name',
-                    'value'   => 'entry.edit_link'
+                    'value'   => 'entry.title'
                 ],
                 [
                     'heading' => 'module::field.description.name',
@@ -30,7 +33,10 @@ class SearchTableColumns
                 ],
                 [
                     'heading' => 'module::field.keywords.name',
-                    'value'   => function ($item) {
+                    'value'   => function (SearchPresenter $entry) {
+
+                        /* @var SearchItem $item */
+                        $item = $entry->getObject();
 
                         return implode(
                             ' ',
@@ -38,7 +44,7 @@ class SearchTableColumns
                                 function ($keyword) {
                                     return '<span class="label label-default">' . $keyword . '</span>';
                                 },
-                                $item['keywords']
+                                $item->getKeywords()
                             )
                         );
                     }

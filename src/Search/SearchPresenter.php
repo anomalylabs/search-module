@@ -1,7 +1,6 @@
 <?php namespace Anomaly\SearchModule\Search;
 
 use Anomaly\SearchModule\Search\Contract\SearchItemInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
@@ -21,22 +20,4 @@ class SearchPresenter extends Presenter
      * @var SearchItemInterface
      */
     protected $object;
-
-    /**
-     * Catch calls to fields on
-     * the page's related entry.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        $entry = $this->object->getEntry();
-
-        if ($entry instanceof EntryInterface && $entry->hasField($key)) {
-            return $this->__getDecorator()->decorate($entry)->{$key};
-        }
-
-        return parent::__get($key);
-    }
 }
