@@ -94,7 +94,7 @@ class GetSearchResults implements SelfHandling
         }
 
         $page    = $request->get('page', 1);
-        $perPage = $this->criteria->option('paginate', 15);
+        $perPage = $this->criteria->option('paginate', $this->criteria->option('limit', 15));
 
         $query->limit(
             $perPage,
