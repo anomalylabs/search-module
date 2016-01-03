@@ -50,8 +50,14 @@ class Rebuild extends Command
         $stream = $this->argument('stream');
 
         if (!$stream) {
+
+            $this->info('Destroying index');
+
             $console->call('search:destroy');
         } else {
+
+            $this->info('Deleting ' . $stream);
+
             $search->search('stream', $stream)->delete();
         }
 
