@@ -7,6 +7,7 @@ use App\Console\Kernel;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Mmanos\Search\Search;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -41,13 +42,18 @@ class Rebuild extends Command
      *
      * @param ModuleCollection $modules
      * @param Repository       $config
+     * @param Search           $search
      * @param Kernel           $console
      */
-    public function fire(ModuleCollection $modules, Repository $config, Kernel $console)
+    public function fire(ModuleCollection $modules, Repository $config, Search $search, Kernel $console)
     {
-        $rebuild = $this->argument('stream');
+        $stream = $this->argument('stream');
 
-        $console->call('search:destroy');
+        if (!$stream) {
+            $console->call('search:destroy');
+        } else {
+            $search->search('stream', $stream)->delete();
+        }
 
         /* @var Module $module */
         foreach ($modules->withConfig('search') as $module) {
@@ -56,9 +62,7 @@ class Rebuild extends Command
                 /* @var EntryModel $model */
                 $model = new $model;
 
-                $stream = $model->getStreamNamespace() . '.' . $model->getStreamSlug();
-
-                if (!$rebuild || $stream == $rebuild) {
+                if (!$stream || $stream == $model->getStreamNamespace() . '.' . $model->getStreamSlug()) {
 
                     $this->info('Rebuilding ' . $stream);
 
