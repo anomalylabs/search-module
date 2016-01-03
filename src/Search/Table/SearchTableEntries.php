@@ -1,7 +1,9 @@
 <?php namespace Anomaly\SearchModule\Search\Table;
 
-use Anomaly\Streams\Platform\Support\Collection;
-use Mmanos\Search\Search;
+use Anomaly\SearchModule\Search\Command\GetSearchResults;
+use Anomaly\SearchModule\Search\SearchCriteria;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class SearchTableEntries
@@ -14,35 +16,28 @@ use Mmanos\Search\Search;
 class SearchTableEntries
 {
 
+    use DispatchesJobs;
+
     /**
      * Handle the table entries.
      *
      * @param SearchTableBuilder $builder
-     * @param Search             $search
      */
-    public function handle(SearchTableBuilder $builder, Search $search)
+    public function handle(SearchTableBuilder $builder)
     {
-        $results = [];
+        /* @var LengthAwarePaginator $results */
+        $results = (
+        new SearchCriteria(
+            'results',
+            function (SearchCriteria $criteria) use ($builder) {
 
-        if ($term = $builder->getTableFilterValue('term')) {
+                $criteria->search(null, $builder->getTableFilterValue('term'));
 
-            $options = [];
-
-            if (!str_contains($term, ['-', '_', '.'])) {
-                $options['fuzzy'] = 0.3;
+                return $this->dispatch(new GetSearchResults($criteria));
             }
+        )
+        )->results();
 
-            $query = $search->search(['title', 'description', 'keywords'], $term, $options);
-
-            $query->search('stream', 'pages', ['required' => false]);
-
-            $results = $query->get();
-        }
-
-        foreach ($results as &$result) {
-            $result['keywords'] = explode(',', array_get($result, 'keywords', ''));
-        }
-
-        $builder->setTableEntries(new Collection($results));
+        $builder->setTableEntries($results->getCollection());
     }
 }
