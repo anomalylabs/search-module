@@ -43,15 +43,13 @@ class GetConfig implements SelfHandling
      */
     public function handle(ModuleCollection $modules, Repository $config)
     {
+        $default = $config->get('anomaly.module.search::' . ($key = 'search.' . get_class($this->entry)));
+
         /* @var Module $module */
-        foreach ($modules->withConfig('search.' . get_class($this->entry)) as $module) {
-            return $config->get(
-                $module->getNamespace(
-                    'search.' . get_class($this->entry)
-                )
-            );
+        foreach ($modules->withConfig($key) as $module) {
+            return $default ?: $config->get($module->getNamespace($key));
         }
 
-        return null;
+        return $default;
     }
 }
