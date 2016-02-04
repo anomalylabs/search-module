@@ -1,9 +1,10 @@
 <?php namespace Anomaly\SearchModule\Search\Console;
 
-use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\SearchModule\Search\Command\GetConfig;
+use Anomaly\SearchModule\Search\Index\IndexManager;
+use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use App\Console\Kernel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -40,51 +41,63 @@ class Rebuild extends Command
     /**
      * Execute the console command.
      *
-     * @param ModuleCollection $modules
-     * @param Repository       $config
-     * @param Search           $search
-     * @param Kernel           $console
+     * @param Search                    $search
+     * @param IndexManager              $manager
+     * @param StreamRepositoryInterface $streams
      */
-    public function fire(ModuleCollection $modules, Repository $config, Search $search, Kernel $console)
-    {
+    public function fire(
+        Search $search,
+        IndexManager $manager,
+        StreamRepositoryInterface $streams,
+        EntryRepositoryInterface $repository
+    ) {
         $stream = $this->argument('stream');
 
-        if (!$stream) {
+        list($namespace, $slug) = explode('.', $stream);
 
-            $this->info('Destroying index');
+        if (!$stream = $streams->findBySlugAndNamespace($slug, $namespace)) {
 
-            $console->call('search:destroy');
-        } else {
+            $this->error('Stream [' . $this->argument('stream') . '] could not be found.');
 
-            $this->info('Deleting ' . $stream);
-
-            $search->search('stream', $stream)->delete();
+            return;
         }
 
-        /* @var Module $module */
-        foreach ($modules->withConfig('search') as $module) {
-            foreach ($config->get($module->getNamespace('search')) as $model => $search) {
+        /* @var EntryModel $model */
+        $repository->setModel($model = $stream->getEntryModel());
 
-                /* @var EntryModel $model */
-                $model = new $model;
-
-                if (!$stream || $stream == $model->getStreamNamespace() . '.' . $model->getStreamSlug()) {
-
-                    $this->info('Rebuilding ' . $stream);
-
-                    $this->output->progressStart($model->count());
-
-                    foreach ($model->all() as $entry) {
-
-                        $entry->save();
-
-                        $this->output->progressAdvance();
-                    }
-
-                    $this->output->progressFinish();
-                }
-            }
+        /**
+         * If the stream is empty we can't
+         * really index it.
+         */
+        if (!$entry = $repository->first()) {
+            $this->error('Stream [' . $this->argument('stream') . '] is empty.');
         }
+
+        /**
+         * If the stream does not have a valid
+         * search configuration then we don't
+         * know how to insert it's entries.
+         */
+        if (!$config = $this->dispatch(new GetConfig($entry))) {
+            $this->error('Stream [' . $this->argument('stream') . '] does not have a search configuration.');
+        }
+
+        $this->info('Deleting ' . $this->argument('stream'));
+
+        $search->search('stream', $stream)->delete();
+
+        $this->info('Rebuilding ' . $this->argument('stream'));
+
+        $this->output->progressStart($repository->count());
+
+        foreach ($repository->all() as $entry) {
+
+            $manager->insert($entry, $config);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
     }
 
     /**
@@ -95,7 +108,7 @@ class Rebuild extends Command
     protected function getArguments()
     {
         return [
-            ['stream', InputArgument::OPTIONAL, 'The stream to rebuild.']
+            ['stream', InputArgument::REQUIRED, 'The stream to rebuild: i.e. pages.pages']
         ];
     }
 }
