@@ -6,9 +6,9 @@ use Anomaly\Streams\Platform\Http\Controller\AdminController;
 /**
  * Class SearchController
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @link          http://pyrocms.com/
+ * @author        PyroCMS, Inc. <support@pyrocms.com>
+ * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\SearchModule\Http\Controller\Admin
  */
 class SearchController extends AdminController
