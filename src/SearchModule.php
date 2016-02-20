@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class SearchModule
@@ -41,6 +41,19 @@ class SearchModule extends Module
     ];
 
     /**
+     * Fired just before module is installed.
+     *
+     * @param Application $application
+     * @param Filesystem  $files
+     */
+    public function onInstalling(Application $application, Filesystem $files)
+    {
+        if (is_dir($path = $application->getStoragePath('search/zend'))) {
+            $files->deleteDirectory($application->getStoragePath('search/zend'));
+        }
+    }
+
+    /**
      * Fired after module is installed.
      *
      * @param Application $application
@@ -56,9 +69,10 @@ class SearchModule extends Module
      * Fired after module is uninstalled.
      *
      * @param Application $application
+     * @param Filesystem  $files
      */
-    public function onUninstalled(Application $application)
+    public function onUninstalled(Application $application, Filesystem $files)
     {
-        rmdir($application->getStoragePath('search/zend'));
+        $files->deleteDirectory($application->getStoragePath('search/zend'));
     }
 }
