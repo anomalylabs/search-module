@@ -1,0 +1,23 @@
+{% extends "streams::table/table" %}
+
+{% block no_results %}
+
+    <div class="panel">
+        <div class="panel-body">
+
+            {% if table.filters.active.isEmpty() %}
+
+                <h3>{{ trans('module::message.basic_usage') }}</h3>
+
+                {{ trans('module::message.basic_usage_text')|raw }}
+
+            {% else %}
+
+                {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}

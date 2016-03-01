@@ -1,3 +1,3 @@
 # Search Module
 
-A search indexing module.
+A powerful search index for the Streams Platform.

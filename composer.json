@@ -1,23 +1,37 @@
 {
     "name": "anomaly/search-module",
     "type": "streams-addon",
-    "description": "System wide indexing module.",
-    "version": "1.0.0",
+    "description": "A powerful search index for the Streams Platform.",
+    "keywords": [
+        "module",
+        "search",
+        "module"
+    ],
+    "homepage": "http://pyrocms.com/",
+    "license": "MIT",
     "authors": [
         {
-            "name": "AnomalyLabs",
-            "email": "hello@anomaly.is"
+            "name": "PyroCMS, Inc.",
+            "email": "support@pyrocms.com",
+            "homepage": "http://pyrocms.com/",
+            "role": "Owner"
         }
     ],
+    "support": {
+        "email": "support@anomaly.is"
+    },
     "autoload": {
         "psr-4": {
-            "Anomaly\\SearchModule\\": "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
-    "minimum-stability": "dev"
+            "Anomaly\\SearchModule\\": "src/",
+            "Zend\\Stdlib\\": "vendor/zendframework/zend-stdlib/src/",
+            "Elasticsearch\\": "vendor/elasticsearch/elasticsearch/src/Elasticsearch/"
+        },
+        "psr-0": {
+            "Mmanos\\Search\\": "vendor/mmanos/laravel-search/src/",
+            "ZendSearch": "vendor/zendframework/zendsearch/library/"
+        },
+        "classmap": [
+            "vendor/algolia/algoliasearch-client-php/algoliasearch.php"
+        ]
+    }
 }

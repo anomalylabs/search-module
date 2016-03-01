@@ -1,9 +1,10 @@
 <?php
 
 return [
-    'name'        => 'Search',
-    'description' => 'System wide indexing module.',
+    'title'       => 'Search',
+    'name'        => 'Search Module',
+    'description' => 'A powerful search index for the Streams Platform.',
     'section'     => [
-        'search' => 'Search Index'
+        'index' => 'Search Index'
     ]
 ];

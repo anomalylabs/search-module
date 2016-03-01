@@ -1,44 +1,46 @@
 <?php namespace Anomaly\SearchModule;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SearchModuleServiceProvider
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @link          http://pyrocms.com/
+ * @author        PyroCMS, Inc. <support@pyrocms.com>
+ * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\SearchModule
  */
 class SearchModuleServiceProvider extends AddonServiceProvider
 {
 
     /**
-     * The addon routes.
+     * Additional addon providers.
      *
      * @var array
      */
-    protected $routes = [
-        'admin/search' => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@index'
+    protected $providers = [
+        'Mmanos\Search\SearchServiceProvider'
     ];
 
     /**
-     * The addon bindings.
+     * The addon plugins.
      *
      * @var array
      */
-    protected $bindings = [
-        'Anomaly\SearchModule\Index\IndexModel'                       => 'Anomaly\SearchModule\Index\IndexModel',
-        'Anomaly\Streams\Platform\Model\Search\SearchIndexEntryModel' => 'Anomaly\SearchModule\Index\IndexModel'
+    protected $plugins = [
+        'Anomaly\SearchModule\SearchModulePlugin'
     ];
 
     /**
-     * The addon singletons.
+     * The addon commands.
      *
      * @var array
      */
-    protected $singletons = [
-        'Anomaly\SearchModule\Index\Contract\IndexRepositoryInterface' => 'Anomaly\SearchModule\Index\IndexRepository'
+    protected $commands = [
+        'Anomaly\SearchModule\Search\Console\Destroy',
+        'Anomaly\SearchModule\Search\Console\Rebuild'
     ];
 
     /**
@@ -47,9 +49,41 @@ class SearchModuleServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $listeners = [
-        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved' => [
-            'Anomaly\SearchModule\Indexer\Listener\IndexEntry'
+        'Anomaly\Streams\Platform\Entry\Event\EntryWasSaved'   => [
+            'Anomaly\SearchModule\Search\Listener\InsertItem'
+        ],
+        'Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted' => [
+            'Anomaly\SearchModule\Search\Listener\DeleteItem'
         ]
     ];
 
+    /**
+     * The addon routes.
+     *
+     * @var array
+     */
+    protected $routes = [
+        'admin/search'         => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@index',
+        'admin/search/rebuild' => 'Anomaly\SearchModule\Http\Controller\Admin\SearchController@rebuild'
+    ];
+
+    /**
+     * Boot the service provider.
+     *
+     * @param Repository  $config
+     * @param Application $application
+     */
+    public function boot(Repository $config, Application $application)
+    {
+        $config->set('search', $config->get('anomaly.module.search::engine'));
+
+        $config->set(
+            'search.connections.zend.path',
+            str_replace(
+                'storage::',
+                $application->getStoragePath() . '/',
+                $config->get('search.connections.zend.path')
+            )
+        );
+    }
 }
