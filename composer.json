@@ -22,7 +22,7 @@
     },
     "require": {
         "mmanos/laravel-search": "~1.0",
-        "zendframework/zendsearch": "~2.0"
+        "zendframework/zendsearch": "dev-master"
     },
     "autoload": {
         "psr-4": {
