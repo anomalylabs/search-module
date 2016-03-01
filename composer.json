@@ -20,18 +20,12 @@
     "support": {
         "email": "support@anomaly.is"
     },
+    "require": {
+        "mmanos/laravel-search": "~1.0"
+    },
     "autoload": {
         "psr-4": {
-            "Anomaly\\SearchModule\\": "src/",
-            "Zend\\Stdlib\\": "vendor/zendframework/zend-stdlib/src/",
-            "Elasticsearch\\": "vendor/elasticsearch/elasticsearch/src/Elasticsearch/"
-        },
-        "psr-0": {
-            "Mmanos\\Search\\": "vendor/mmanos/laravel-search/src/",
-            "ZendSearch": "vendor/zendframework/zendsearch/library/"
-        },
-        "classmap": [
-            "vendor/algolia/algoliasearch-client-php/algoliasearch.php"
-        ]
+            "Anomaly\\SearchModule\\": "src/"
+        }
     }
 }
