@@ -71,6 +71,34 @@ interface SearchItemInterface
     public function getEntry();
 
     /**
+     * Get the stream.
+     *
+     * @return string
+     */
+    public function getStream();
+
+    /**
+     * Get the stream name.
+     *
+     * @return string
+     */
+    public function getStreamName();
+
+    /**
+     * Get the stream namespace.
+     *
+     * @return string
+     */
+    public function getStreamNamespace();
+
+    /**
+     * Get the namespace.
+     *
+     * @return string
+     */
+    public function getNamespace();
+
+    /**
      * Return a created presenter.
      *
      * @return SearchPresenter

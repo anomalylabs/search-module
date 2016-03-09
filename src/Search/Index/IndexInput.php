@@ -32,7 +32,7 @@ class IndexInput
     /**
      * Create a new IndexInput instance.
      *
-     * @param Value     $value
+     * @param Value $value
      * @param Evaluator $evaluator
      */
     public function __construct(Value $value, Evaluator $evaluator)
@@ -94,7 +94,8 @@ class IndexInput
      */
     protected function setStream(EntryInterface $entry, &$config)
     {
-        $config['fields']['stream'] = $entry->getStreamNamespace() . '.' . $entry->getStreamSlug();
+        $config['fields']['stream']    = $entry->getStreamSlug();
+        $config['fields']['namespace'] = $entry->getStreamNamespace();
     }
 
     /**

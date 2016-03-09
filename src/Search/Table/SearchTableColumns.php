@@ -1,5 +1,6 @@
 <?php namespace Anomaly\SearchModule\Search\Table;
 
+use Anomaly\SearchModule\Search\Contract\SearchItemInterface;
 use Anomaly\SearchModule\Search\SearchItem;
 use Anomaly\SearchModule\Search\SearchPresenter;
 
@@ -51,7 +52,14 @@ class SearchTableColumns
                 ],
                 [
                     'heading' => 'module::field.stream.name',
-                    'value'   => 'entry.stream'
+                    'value'   => function (SearchPresenter $entry) {
+
+                        /* @var SearchItemInterface $item */
+                        $item = $entry->getObject();
+
+                        return trans($item->getStreamName()) . ' <small class="text-muted">[' . $item->getStreamNamespace(
+                        ) . ']</small>';
+                    }
                 ]
             ]
         );

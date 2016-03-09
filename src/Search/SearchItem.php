@@ -28,6 +28,20 @@ class SearchItem implements SearchItemInterface, PresentableInterface, Arrayable
     protected $entry = null;
 
     /**
+     * The stream slug.
+     *
+     * @var string
+     */
+    protected $stream;
+
+    /**
+     * The stream namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
+
+    /**
      * The item title.
      *
      * @var string
@@ -80,7 +94,9 @@ class SearchItem implements SearchItemInterface, PresentableInterface, Arrayable
     public function __construct(array $attributes = [])
     {
         $this->title       = array_get($attributes, 'title');
+        $this->stream      = array_get($attributes, 'stream');
         $this->entry_id    = array_get($attributes, 'entry_id');
+        $this->namespace   = array_get($attributes, 'namespace');
         $this->edit_path   = array_get($attributes, 'edit_path');
         $this->view_path   = array_get($attributes, 'view_path');
         $this->entry_type  = array_get($attributes, 'entry_type');
@@ -173,6 +189,50 @@ class SearchItem implements SearchItemInterface, PresentableInterface, Arrayable
     }
 
     /**
+     * Get the stream.
+     *
+     * @return string
+     */
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
+    /**
+     * Get the stream name.
+     *
+     * @return string
+     */
+    public function getStreamName()
+    {
+        $entry = $this->getEntry();
+
+        return $entry ? $entry->getStreamName() : null;
+    }
+
+    /**
+     * Get the stream namespace.
+     *
+     * @return string
+     */
+    public function getStreamNamespace()
+    {
+        $entry = $this->getEntry();
+
+        return $entry ? $entry->getStreamNamespace() : null;
+    }
+
+    /**
+     * Get the namespace.
+     *
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
      * Return a created presenter.
      *
      * @return SearchPresenter
@@ -191,7 +251,9 @@ class SearchItem implements SearchItemInterface, PresentableInterface, Arrayable
     {
         return [
             'title'       => $this->title,
+            'stream'      => $this->stream,
             'keywords'    => $this->keywords,
+            'namespace'   => $this->namespace,
             'description' => $this->description,
             'entry_id'    => $this->entry_id,
             'edit_path'   => $this->edit_path,

@@ -41,8 +41,8 @@ class Rebuild extends Command
     /**
      * Execute the console command.
      *
-     * @param Search                    $search
-     * @param IndexManager              $manager
+     * @param Search $search
+     * @param IndexManager $manager
      * @param StreamRepositoryInterface $streams
      */
     public function fire(
@@ -84,7 +84,7 @@ class Rebuild extends Command
 
         $this->info('Deleting ' . $this->argument('stream'));
 
-        $search->search('stream', $stream)->delete();
+        $search->search('stream', $stream->getSlug())->search('namespace', $stream->getNamespace())->delete();
 
         $this->info('Rebuilding ' . $this->argument('stream'));
 
