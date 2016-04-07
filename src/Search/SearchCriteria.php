@@ -48,7 +48,9 @@ class SearchCriteria extends PluginCriteria
             }
         }
 
-        return parent::__call('in', $streams);
+        $this->option['in'] = $streams;
+
+        return $this;
     }
 
     /**
