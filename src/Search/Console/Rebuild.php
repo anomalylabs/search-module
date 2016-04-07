@@ -41,8 +41,8 @@ class Rebuild extends Command
     /**
      * Execute the console command.
      *
-     * @param Search $search
-     * @param IndexManager $manager
+     * @param Search                    $search
+     * @param IndexManager              $manager
      * @param StreamRepositoryInterface $streams
      */
     public function fire(
@@ -52,6 +52,10 @@ class Rebuild extends Command
         EntryRepositoryInterface $repository
     ) {
         $stream = $this->argument('stream');
+
+        if (!strpos($stream, '.')) {
+            $stream = $stream . '.' . $stream;
+        }
 
         list($namespace, $slug) = explode('.', $stream);
 

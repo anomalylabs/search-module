@@ -31,6 +31,27 @@ class SearchCriteria extends PluginCriteria
     }
 
     /**
+     * Format streams variable.
+     *
+     * @param $streams
+     * @return $this
+     */
+    public function in($streams)
+    {
+        if (is_string($streams)) {
+            $streams = [$streams];
+        }
+
+        foreach ($streams as &$stream) {
+            if (!strpos($stream, '.')) {
+                $stream = $stream . '.' . $stream;
+            }
+        }
+
+        return parent::__call('in', $streams);
+    }
+
+    /**
      * Catch operation methods.
      *
      * @param $name
