@@ -42,6 +42,9 @@ class SearchTableBuilder extends TableBuilder
      * @var array
      */
     protected $buttons = [
+        'edit' => [
+            'href' => '{entry.edit_path}'
+        ],
         'view' => [
             'href'   => '{entry.view_path}',
             'target' => '_blank'
