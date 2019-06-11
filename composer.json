@@ -1,0 +1,9 @@
+{
+    "name": "anomaly/search-module",
+    "type": "streams-addon",
+    "autoload": {
+        "psr-4": {
+            "Anomaly\\SearchModule\\": "src/"
+        }
+    }
+}
