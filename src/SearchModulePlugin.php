@@ -54,10 +54,12 @@ class SearchModulePlugin extends Plugin
                                 }
                             }
 
-                            $match = app('db')->raw('MATCH (title,description) AGAINST ("' . implode(' ', $words) . '")');
+                            $match = app('db')->raw(
+                                'MATCH (title,description) AGAINST ("' . implode(' ', $words) . '")'
+                            );
 
                             //$query->addSelect($match . ' AS _score');
-                            $query->where($match, '>=', 10);
+                            $query->where($match, '>=', 6);
                             $query->orderBy($match, 'ASC');
 
                             if (count($words) > 1) {
