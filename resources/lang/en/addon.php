@@ -3,5 +3,5 @@
 return [
     'title'       => 'Search',
     'name'        => 'Search Module',
-    'description' => ''
+    'description' => 'An SQL based Scout adapter and search suite.',
 ];
