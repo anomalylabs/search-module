@@ -19,6 +19,7 @@ class AnomalyModuleSearchCreateSearchFields extends Migration
      */
     protected $fields = [
         'title'       => 'anomaly.field_type.text',
+        'locale'      => 'anomaly.field_type.text',
         'description' => 'anomaly.field_type.textarea',
         'entry'       => 'anomaly.field_type.polymorphic',
         'stream'      => [
@@ -34,7 +35,7 @@ class AnomalyModuleSearchCreateSearchFields extends Migration
                 'storage' => 'json',
             ],
         ],
-        'searchable'    => [
+        'searchable'  => [
             'type'   => 'anomaly.field_type.textarea',
             'config' => [
                 'storage' => 'json',

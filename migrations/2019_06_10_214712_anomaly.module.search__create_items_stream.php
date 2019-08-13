@@ -50,6 +50,9 @@ class AnomalyModuleSearchCreateItemsStream extends Migration
         'stream' => [
             'required' => true,
         ],
+        'locale' => [
+            'required' => true,
+        ],
         'searchable',
     ];
 

@@ -61,7 +61,7 @@ class SearchEngine extends Engine
             $item->fill(
                 [
                     'title'       => array_get($array, 'title'),
-                    'keywords'    => array_get($array, 'description'),
+                    'keywords'    => array_get($array, 'keywords'),
                     'description' => array_get($array, 'description'),
                     'searchable'  => $array,
                 ]
