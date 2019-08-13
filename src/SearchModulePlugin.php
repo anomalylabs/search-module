@@ -25,7 +25,7 @@ class SearchModulePlugin extends Plugin
         return [
             new \Twig_SimpleFunction(
                 'search',
-                function ($search, $locale = null) {
+                function ($search, $options = []) {
 
                     /* @var ItemRepositoryInterface $repository */
                     $repository = app(ItemRepositoryInterface::class);
@@ -34,8 +34,15 @@ class SearchModulePlugin extends Plugin
                     $query = $repository->newQuery();
                     $model = $repository->getModel();
 
+                    /**
+                     * Restrict the query to the active locale.
+                     */
+                    $query->where('locale', array_get($options, 'locale', config('app.locale')));
+
                     $query->where(
-                        function (\Illuminate\Database\Eloquent\Builder $query) use ($search) {
+                        function (\Illuminate\Database\Eloquent\Builder $query) use ($search, $options) {
+
+                            $threshold = array_get($options, 'threshold', 3);
 
                             /**
                              * Remove symbols used by MySQL.
@@ -66,7 +73,7 @@ class SearchModulePlugin extends Plugin
                             );
 
                             //$query->addSelect($match . ' AS _score');
-                            $query->where($match, '>=', 3);
+                            $query->where($match, '>=', $threshold);
                             $query->orderBy($match, 'ASC');
 
                             /**
@@ -78,7 +85,7 @@ class SearchModulePlugin extends Plugin
                             );
 
                             //$query->addSelect($match . ' AS _score');
-                            $query->orWhere($match, '>=', 3);
+                            $query->orWhere($match, '>=', $threshold);
                             $query->orderBy($match, 'ASC');
 
                             /**
@@ -91,17 +98,12 @@ class SearchModulePlugin extends Plugin
                                     $match = app('db')->raw('MATCH (title,description) AGAINST ("' . $word . '")');
 
                                     //$query->addSelect($match . ' AS _score' . ($k + 1));
-                                    $query->orWhere($match, '>=', 3);
+                                    $query->orWhere($match, '>=', $threshold);
                                     $query->orderBy($match, 'ASC');
                                 }
                             }
                         }
                     );
-
-                    /**
-                     * Restrict the query to the active locale.
-                     */
-                    $query->where('locale', $locale ?: config('app.locale'));
 
                     return new SearchCriteria($query, $model->getStream(), 'get');
                 }
