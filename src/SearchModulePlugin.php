@@ -25,7 +25,7 @@ class SearchModulePlugin extends Plugin
         return [
             new \Twig_SimpleFunction(
                 'search',
-                function ($search) {
+                function ($search, $locale = null) {
 
                     /* @var ItemRepositoryInterface $repository */
                     $repository = app(ItemRepositoryInterface::class);
@@ -37,7 +37,9 @@ class SearchModulePlugin extends Plugin
                     $query->where(
                         function (\Illuminate\Database\Eloquent\Builder $query) use ($search) {
 
-                            // removing symbols used by MySQL
+                            /**
+                             * Remove symbols used by MySQL.
+                             */
                             $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
                             $term            = str_replace($reservedSymbols, '', $search);
 
@@ -54,26 +56,52 @@ class SearchModulePlugin extends Plugin
                                 }
                             }
 
+                            /**
+                             * Match the primary index fields.
+                             * Title and description should trump
+                             * anything else that get's matched.
+                             */
                             $match = app('db')->raw(
                                 'MATCH (title,description) AGAINST ("' . implode(' ', $words) . '")'
                             );
 
                             //$query->addSelect($match . ' AS _score');
-                            $query->where($match, '>=', 6);
+                            $query->where($match, '>=', 3);
                             $query->orderBy($match, 'ASC');
 
+                            /**
+                             * Match in the searchable data
+                             * if possible. Expect lower scores.
+                             */
+                            $match = app('db')->raw(
+                                'MATCH (searchable) AGAINST ("' . implode(' ', $words) . '")'
+                            );
+
+                            //$query->addSelect($match . ' AS _score');
+                            $query->orWhere($match, '>=', 3);
+                            $query->orderBy($match, 'ASC');
+
+                            /**
+                             * Match multiple words against
+                             * the primary fields as well.
+                             */
                             if (count($words) > 1) {
                                 foreach ($words as $k => $word) {
 
                                     $match = app('db')->raw('MATCH (title,description) AGAINST ("' . $word . '")');
 
                                     //$query->addSelect($match . ' AS _score' . ($k + 1));
-                                    $query->orWhere($match, '>=', 6);
+                                    $query->orWhere($match, '>=', 3);
                                     $query->orderBy($match, 'ASC');
                                 }
                             }
                         }
                     );
+
+                    /**
+                     * Restrict the query to the active locale.
+                     */
+                    $query->where('locale', $locale ?: config('app.locale'));
 
                     return new SearchCriteria($query, $model->getStream(), 'get');
                 }

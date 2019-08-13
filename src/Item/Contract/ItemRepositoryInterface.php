@@ -17,12 +17,13 @@ interface ItemRepositoryInterface extends EntryRepositoryInterface
 {
 
     /**
-     * Find an item by entry.
+     * Find an item by entry and locale.
      *
      * @param EntryModel $entry
+     * @param $locale
      * @return ItemInterface|null
      */
-    public function findByEntry(EntryModel $entry);
+    public function findByEntryAndLocale(EntryModel $entry, $locale);
 
     /**
      * Return simple search results.

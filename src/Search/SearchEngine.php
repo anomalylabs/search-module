@@ -5,7 +5,9 @@ use Anomaly\SearchModule\Item\Contract\ItemRepositoryInterface;
 use Anomaly\SearchModule\Item\ItemModel;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\EntryTranslationsModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
 
@@ -44,34 +46,34 @@ class SearchEngine extends Engine
      */
     public function update($models)
     {
+        /* @var EntryModel $model */
         foreach ($models as $model) {
 
-            /* @var EntryModel $model */
-            $array = $model->toSearchableArray();
+            /* @var StreamInterface $stream */
+            $stream = $model->getStream();
 
-            if (!$item = $this->items->findByEntry($model)) {
-                $item = new ItemModel(
-                    [
-                        'entry'  => $model,
-                        'stream' => $model->getStream(),
-                    ]
-                );
+            /**
+             * If the stream is translatable
+             * then loop through locales and
+             * index each one accordingly.
+             */
+            if ($stream->isTranslatable()) {
+                foreach (config('streams::locales.enabled', []) as $locale) {
+
+                    /* @var EntryTranslationsModel $translation */
+                    $translation = $model->translateOrDefault($locale);
+
+                    $this->index($translation->getParent(), $translation->getLocale());
+                }
             }
 
-            $item->fill(
-                [
-                    'title'       => array_get($array, 'title'),
-                    'keywords'    => array_get($array, 'keywords'),
-                    'description' => array_get($array, 'description'),
-                    'searchable'  => $array,
-                ]
-            );
-
-            $this->items->withoutEvents(
-                function () use ($item) {
-                    $this->items->save($item);
-                }
-            );
+            /**
+             * If the stream is NOT translatable
+             * then simply loop the one model.
+             */
+            if (!$stream->isTranslatable()) {
+                $this->index($model);
+            }
         }
     }
 
@@ -173,9 +175,63 @@ class SearchEngine extends Engine
      */
     public function flush($model)
     {
-        foreach ($this->items->findBy('stream_id', $model->getStreamId()) as $item) {
-            $this->items->withoutEvents($item);
+        foreach ($this->items->findAllBy('stream_id', $model->getStreamId()) as $item) {
+            $this->items->withoutEvents(
+                function () use ($item) {
+                    $this->items->delete($item);
+                }
+            );
         }
+    }
+
+    /**
+     * Index the model.
+     *
+     * @param EntryModel $model
+     */
+    protected function index(EntryModel $model, $locale = null)
+    {
+        $locale = $locale ?: config('app.fallback_locale');
+
+        /* @var EntryModel $model */
+        $array = $model->toSearchableArray();
+
+        /**
+         * If the model is translatable
+         * then translate it and use
+         * that array data to index.
+         *
+         * @var EntryTranslationsModel|EntryModel $translation
+         */
+        if ($model->isTranslatable() && $translation = $model->translateOrDefault($locale)) {
+            $array = array_merge($array, $translation->toArray());
+        }
+
+
+        if (!$item = $this->items->findByEntryAndLocale($model, $locale)) {
+            $item = new ItemModel(
+                [
+                    'entry'  => $model,
+                    'stream' => $model->getStream(),
+                ]
+            );
+        }
+
+        $item->fill(
+            [
+                'title'       => array_get($array, 'title'),
+                'keywords'    => array_get($array, 'keywords'),
+                'description' => array_get($array, 'description'),
+                'locale'      => $locale,
+                'searchable'  => $array,
+            ]
+        );
+
+        $this->items->withoutEvents(
+            function () use ($item) {
+                $this->items->save($item);
+            }
+        );
     }
 
 }

@@ -35,14 +35,15 @@ class ItemRepository extends EntryRepository implements ItemRepositoryInterface
     }
 
     /**
-     * Find an item by entry.
+     * Find an item by entry and locale.
      *
      * @param EntryModel $entry
      * @return ItemInterface|null
      */
-    public function findByEntry(EntryModel $entry)
+    public function findByEntryAndLocale(EntryModel $entry, $locale)
     {
         return $this->model
+            ->where('locale', $locale)
             ->where('entry_id', $entry->getId())
             ->where('entry_type', get_class($entry))
             ->first();

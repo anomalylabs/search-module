@@ -62,6 +62,7 @@ class AnomalyModuleSearchCreateItemsStream extends Migration
     public function up()
     {
         app('db')->statement('ALTER TABLE ' . app('db')->getTablePrefix() . 'search_items ADD FULLTEXT(title,description);');
+        app('db')->statement('ALTER TABLE ' . app('db')->getTablePrefix() . 'search_items ADD FULLTEXT(searchable);');
     }
 
 }
