@@ -3,5 +3,5 @@
 return [
     'title'       => 'Search',
     'name'        => 'Search Module',
-    'description' => 'A database Scout adapter and search suite with multi-model support.',
+    'description' => 'A MySQL based multilingual Scout driver with multi-model search support.',
 ];

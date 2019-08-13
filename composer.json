@@ -1,7 +1,7 @@
 {
     "name": "anomaly/search-module",
     "type": "streams-addon",
-    "description": "An SQL based Scout adapter and search suite.",
+    "description": "A MySQL based multilingual Scout driver with multi-model search support.",
     "keywords": [
         "search",
         "scout",

@@ -17,7 +17,7 @@ class SearchModule extends Module
      *
      * @var bool
      */
-    protected $navigation = true;
+    protected $navigation = false;
 
     /**
      * The addon icon.
