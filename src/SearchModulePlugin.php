@@ -104,6 +104,9 @@ class SearchModulePlugin extends Plugin
                                     $query->orderBy($match, 'DESC');
                                 }
                             }
+
+                            $query->orWhere('title', 'LIKE', '%' . $search . '%');
+                            $query->orWhere('description', 'LIKE', '%' . $search . '%');
                         }
                     );
 
