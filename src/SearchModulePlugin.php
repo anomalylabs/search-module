@@ -1,4 +1,6 @@
-<?php namespace Anomaly\SearchModule;
+<?php
+
+namespace Anomaly\SearchModule;
 
 use Anomaly\SearchModule\Item\Contract\ItemRepositoryInterface;
 use Anomaly\SearchModule\Search\SearchCriteria;
@@ -40,7 +42,7 @@ class SearchModulePlugin extends Plugin
                     $query->where('locale', array_get($options, 'locale', config('app.locale')));
 
                     $query->where(
-                        function (\Illuminate\Database\Eloquent\Builder $query) use ($search, $options) {
+                        function () use ($query, $search, $options) {
 
                             $threshold = array_get($options, 'threshold', 3);
 
@@ -74,7 +76,7 @@ class SearchModulePlugin extends Plugin
 
                             //$query->addSelect($match . ' AS _score');
                             $query->where($match, '>=', $threshold);
-                            $query->orderBy($match, 'ASC');
+                            $query->orderBy($match, 'DESC');
 
                             /**
                              * Match in the searchable data
@@ -86,7 +88,7 @@ class SearchModulePlugin extends Plugin
 
                             //$query->addSelect($match . ' AS _score');
                             $query->orWhere($match, '>=', $threshold);
-                            $query->orderBy($match, 'ASC');
+                            $query->orderBy($match, 'DESC');
 
                             /**
                              * Match multiple words against
@@ -99,7 +101,7 @@ class SearchModulePlugin extends Plugin
 
                                     //$query->addSelect($match . ' AS _score' . ($k + 1));
                                     $query->orWhere($match, '>=', $threshold);
-                                    $query->orderBy($match, 'ASC');
+                                    $query->orderBy($match, 'DESC');
                                 }
                             }
                         }
