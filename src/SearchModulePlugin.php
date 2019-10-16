@@ -2,10 +2,11 @@
 
 namespace Anomaly\SearchModule;
 
-use Anomaly\SearchModule\Item\Contract\ItemRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Anomaly\SearchModule\Search\SearchCriteria;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\SearchModule\Item\Contract\ItemRepositoryInterface;
 
 /**
  * Class SearchModulePlugin
@@ -42,7 +43,7 @@ class SearchModulePlugin extends Plugin
                     $query->where('locale', array_get($options, 'locale', config('app.locale')));
 
                     $query->where(
-                        function () use ($query, $search, $options) {
+                        function (Builder $query) use ($search, $options) {
 
                             $threshold = array_get($options, 'threshold', 3);
 
