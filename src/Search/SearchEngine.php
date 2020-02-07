@@ -88,7 +88,7 @@ class SearchEngine extends Engine
         foreach ($models as $model) {
 
             /* @var ItemInterface|EloquentModel $item */
-            if ($item = $this->items->findByEntry($model)) {
+            foreach ($this->items->findAllByEntry($model) as $item) {
                 $this->items->withoutEvents(
                     function () use ($item) {
                         $this->items->delete($item);
