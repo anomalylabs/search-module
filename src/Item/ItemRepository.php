@@ -35,6 +35,20 @@ class ItemRepository extends EntryRepository implements ItemRepositoryInterface
     }
 
     /**
+     * Find all items by entry.
+     *
+     * @param EntryModel $entry
+     * @return ItemInterface|null
+     */
+    public function findAllByEntry(EntryModel $entry)
+    {
+        return $this->model
+            ->where('entry_id', $entry->getId())
+            ->where('entry_type', get_class($entry))
+            ->get();
+    }
+    
+    /**
      * Find an item by entry and locale.
      *
      * @param EntryModel $entry
