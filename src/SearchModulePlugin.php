@@ -38,22 +38,41 @@ class SearchModulePlugin extends Plugin
                     $model = $repository->getModel();
 
                     /**
+                     * Configure parameters.
+                     */
+                    $term = str_replace(['-', '+', '<', '>', '@', '(', ')', '~'], '', $search);
+
+                    $threshold = array_get($options, 'threshold', 3);
+
+                    $words = explode(' ', $term);
+
+                    /**
+                     * Select the matches we are using
+                     * and prioritize the results.
+                     */
+                    $query->addSelect('*');
+
+                    $query->addSelect(app('db')->raw(
+                        'MATCH (title,description) AGAINST ("' . implode(' ', $words) . '") AS _primary_score'
+                    ));
+
+                    $query->addSelect(app('db')->raw(
+                        'MATCH (searchable) AGAINST ("' . implode(' ', $words) . '") AS _secondary_score'
+                    ));
+
+                    $query->orderBy('_primary_score', 'DESC');
+                    $query->orderBy('_secondary_score', 'DESC');
+                        
+                    /**
                      * Restrict the query to the active locale.
                      */
                     $query->where('locale', array_get($options, 'locale', config('app.locale')));
 
+                    /**
+                     * Filter the results using the above matches.
+                     */
                     $query->where(
-                        function (Builder $query) use ($search, $options) {
-
-                            $threshold = array_get($options, 'threshold', 3);
-
-                            /**
-                             * Remove symbols used by MySQL.
-                             */
-                            $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
-                            $term            = str_replace($reservedSymbols, '', $search);
-
-                            $words = explode(' ', $term);
+                        function (Builder $query) use ($search, $threshold, $words) {
 
                             foreach ($words as $key => $word) {
 
@@ -75,9 +94,7 @@ class SearchModulePlugin extends Plugin
                                 'MATCH (title,description) AGAINST ("' . implode(' ', $words) . '")'
                             );
 
-                            //$query->addSelect($match . ' AS _score');
                             $query->where($match, '>=', $threshold);
-                            $query->orderBy($match, 'DESC');
 
                             /**
                              * Match in the searchable data
@@ -87,22 +104,22 @@ class SearchModulePlugin extends Plugin
                                 'MATCH (searchable) AGAINST ("' . implode(' ', $words) . '")'
                             );
 
-                            //$query->addSelect($match . ' AS _score');
                             $query->orWhere($match, '>=', $threshold);
-                            $query->orderBy($match, 'DESC');
 
                             /**
                              * Match multiple words against
                              * the primary fields as well.
+                             * 
+                             * @todo is this needed?
                              */
                             if (count($words) > 1) {
                                 foreach ($words as $k => $word) {
 
-                                    $match = app('db')->raw('MATCH (title,description) AGAINST ("' . $word . '")');
+                                    //$match = app('db')->raw('MATCH (title,description) AGAINST ("' . $word . '")');
 
                                     //$query->addSelect($match . ' AS _score' . ($k + 1));
-                                    $query->orWhere($match, '>=', $threshold);
-                                    $query->orderBy($match, 'DESC');
+                                    //$query->orWhere($match, '>=', $threshold);
+                                    //$query->orderBy($match, 'ASC');
                                 }
                             }
 
