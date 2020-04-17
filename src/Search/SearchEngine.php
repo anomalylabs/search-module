@@ -217,9 +217,13 @@ class SearchEngine extends Engine
             );
         }
 
+        if (($title = $model->getTitleName()) == 'id') {
+            $title = 'title';
+        }
+
         $item->fill(
             [
-                'title'       => array_get($array, 'title'),
+                'title'       => array_get($array, $title),
                 'keywords'    => array_get($array, 'keywords'),
                 'description' => array_get($array, 'description'),
                 'locale'      => $locale,
