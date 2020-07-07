@@ -46,6 +46,8 @@ class SearchEngine extends Engine
      */
     public function update($models)
     {
+        $this->delete($models);
+
         /* @var EntryModel $model */
         foreach ($models as $model) {
 
@@ -194,7 +196,9 @@ class SearchEngine extends Engine
         $locale = $locale ?: config('app.fallback_locale');
 
         /* @var EntryModel $model */
-        $array = $model->toSearchableArray();
+        if (!$array = $model->toSearchableArray()) {
+            return;
+        }
 
         /**
          * If the model is translatable
@@ -204,9 +208,8 @@ class SearchEngine extends Engine
          * @var EntryTranslationsModel|EntryModel $translation
          */
         if ($model->isTranslatable() && $translation = $model->translateOrDefault($locale)) {
-            $array = array_merge($array, $translation->toArray());
+            $array = array_merge($translation->toArray(), $array);
         }
-
 
         if (!$item = $this->items->findByEntryAndLocale($model, $locale)) {
             $item = new ItemModel(
