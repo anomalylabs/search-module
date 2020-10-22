@@ -43,7 +43,7 @@ class SearchModulePlugin extends Plugin
                     $query->where('locale', array_get($options, 'locale', config('app.locale')));
 
                     $query->where(
-                        function () use ($query, $search, $options) {
+                        function ($query) use ($search, $options) {
 
                             $threshold = array_get($options, 'threshold', 3);
 
