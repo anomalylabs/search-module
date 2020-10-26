@@ -30,11 +30,17 @@
         "source": "https://github.com/anomalylabs/search-module"
     },
     "require": {
-        "anomaly/streams-platform": "^1.6"
+        "anomaly/streams-platform": "^1.8"
     },
     "autoload": {
         "psr-4": {
             "Anomaly\\SearchModule\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Anomaly\\SearchModuleTest\\": "tests/",
+            "Database\\Factories\\Anomaly\\SearchModule\\": "factories/"
         }
     }
 }
