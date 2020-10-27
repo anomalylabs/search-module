@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Search\SearchItemsEntryModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class ItemModel
@@ -15,6 +16,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
  */
 class ItemModel extends SearchItemsEntryModel implements ItemInterface
 {
+    use HasFactory;
 
     /**
      * Get the related entry.
