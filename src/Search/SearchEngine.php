@@ -205,10 +205,22 @@ class SearchEngine extends Engine
          * then translate it and use
          * that array data to index.
          *
+         * Keep any fields that don't have a translation
+         * as the default locale
+         *
          * @var EntryTranslationsModel|EntryModel $translation
          */
         if ($model->isTranslatable() && $translation = $model->translateOrDefault($locale)) {
-            $array = array_merge($translation->toArray(), $array);
+            $array = array_merge(
+                $array,
+                array_filter(
+                    $translation->toArray(),
+                    function ($item, $key) use ($array) {
+                        return !empty($item) && in_array($key, array_keys($array));
+                    },
+                    ARRAY_FILTER_USE_BOTH
+                )
+            );
         }
 
         if (!$item = $this->items->findByEntryAndLocale($model, $locale)) {
