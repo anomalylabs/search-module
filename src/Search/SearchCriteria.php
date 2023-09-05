@@ -27,7 +27,7 @@ class SearchCriteria extends EntryCriteria
                 array_map(
                     function ($stream) {
                         try {
-                            return dispatch_now(new GetStream($stream));
+                            return dispatch_sync(new GetStream($stream));
                         } catch (\Exception $exception) {
                             return null;
                         }
