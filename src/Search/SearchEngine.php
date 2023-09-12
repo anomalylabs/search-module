@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryTranslationsModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Illuminate\Support\LazyCollection;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
 
@@ -253,4 +254,18 @@ class SearchEngine extends Engine
         );
     }
 
+    public function lazyMap(Builder $builder, $results, $model)
+    {
+        return new LazyCollection($results->all());
+    }
+
+    public function createIndex($name, array $options = [])
+    {
+        //
+    }
+
+    public function deleteIndex($name)
+    {
+        //
+    }
 }
