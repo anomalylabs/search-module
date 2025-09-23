@@ -7,6 +7,7 @@ use Anomaly\SearchModule\Search\SearchCriteria;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\SearchModule\Item\Contract\ItemRepositoryInterface;
+use Twig\TwigFunction;
 
 /**
  * Class SearchModulePlugin
@@ -26,7 +27,7 @@ class SearchModulePlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'search',
                 function ($search, $options = []) {
 
