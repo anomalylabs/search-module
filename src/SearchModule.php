@@ -33,6 +33,7 @@ class SearchModule extends Module
      */
     protected $sections = [
         'items' => [
+            'href'    => 'admin/search/items',
             'buttons' => [
                 'new_item',
             ],
