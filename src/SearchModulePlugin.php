@@ -72,26 +72,24 @@ class SearchModulePlugin extends Plugin
                              * Title and description should trump
                              * anything else that get's matched.
                              */
-                            $match = app('db')->raw(
-                                'MATCH (title,description) AGAINST ("' . implode(' ', $words) . '")'
-                            );
+                            $against = implode(' ', $words);
+
+                            $primary = 'MATCH (title,description) AGAINST (?)';
 
                             $query->addSelect('*');
-                            $query->addSelect(DB::raw($match . ' AS _primary_score'));
-                            $query->where($match, '>=', $threshold);
-                            $query->orderBy($match, 'DESC');
+                            $query->selectRaw($primary . ' AS _primary_score', [$against]);
+                            $query->whereRaw($primary . ' >= ?', [$against, $threshold]);
+                            $query->orderByRaw($primary . ' DESC', [$against]);
 
                             /**
                              * Match in the searchable data
                              * if possible. Expect lower scores.
                              */
-                            $match = app('db')->raw(
-                                'MATCH (searchable) AGAINST ("' . implode(' ', $words) . '")'
-                            );
+                            $secondary = 'MATCH (searchable) AGAINST (?)';
 
-                            $query->addSelect(DB::raw($match . ' AS _secondary_score'));
-                            $query->orWhere($match, '>=', $threshold);
-                            $query->orderBy($match, 'DESC');
+                            $query->selectRaw($secondary . ' AS _secondary_score', [$against]);
+                            $query->orWhereRaw($secondary . ' >= ?', [$against, $threshold]);
+                            $query->orderByRaw($secondary . ' DESC', [$against]);
 
                             /**
                              * Match multiple words against
@@ -100,11 +98,9 @@ class SearchModulePlugin extends Plugin
                             if (count($words) > 1) {
                                 foreach ($words as $k => $word) {
 
-                                    $match = app('db')->raw('MATCH (title,description) AGAINST ("' . $word . '")');
-
-                                    $query->addSelect(DB::raw($match . ' AS _sub_score_' . ($k + 1)));
-                                    $query->orWhere($match, '>=', $threshold);
-                                    $query->orderBy($match, 'DESC');
+                                    $query->selectRaw($primary . ' AS _sub_score_' . ($k + 1), [$word]);
+                                    $query->orWhereRaw($primary . ' >= ?', [$word, $threshold]);
+                                    $query->orderByRaw($primary . ' DESC', [$word]);
                                 }
                             }
 
