@@ -4,6 +4,8 @@ use Anomaly\SearchModule\Item\Contract\ItemInterface;
 use Anomaly\SearchModule\Item\Contract\ItemRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\Builder;
 
@@ -77,6 +79,10 @@ class ItemRepository extends EntryRepository implements ItemRepositoryInterface
         /* @var EntryModel $model */
         $model = $builder->model;
 
+        if (!$model->isSearchable()) {
+            return $this->model->newCollection();
+        }
+
         $query = $this
             ->newQuery()
             ->where(
@@ -95,5 +101,29 @@ class ItemRepository extends EntryRepository implements ItemRepositoryInterface
             ->limit($limit = array_get($options, 'per_page', config('streams::system.per_page')))
             ->skip($limit * (array_get($options, 'page', 1) - 1))
             ->get();
+    }
+
+    /**
+     * Return the IDs of streams enabled for search.
+     *
+     * @return array
+     */
+    public function searchableStreamIds()
+    {
+        return app(StreamRepositoryInterface::class)
+            ->all()
+            ->filter(
+                function (StreamInterface $stream) {
+                    return $stream->isSearchable()
+                        && app($stream->getBoundEntryModelName())->isSearchable();
+                }
+            )
+            ->map(
+                function (StreamInterface $stream) {
+                    return $stream->getId();
+                }
+            )
+            ->values()
+            ->all();
     }
 }

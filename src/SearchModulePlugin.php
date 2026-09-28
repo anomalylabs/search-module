@@ -43,6 +43,11 @@ class SearchModulePlugin extends Plugin
                      */
                     $query->where('locale', array_get($options, 'locale', config('app.locale')));
 
+                    /**
+                     * Restrict the query to streams enabled for search.
+                     */
+                    $query->whereIn('stream_id', $repository->searchableStreamIds());
+
                     $query->where(
                         function ($query) use ($search, $options) {
 

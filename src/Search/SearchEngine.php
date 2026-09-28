@@ -52,6 +52,10 @@ class SearchEngine extends Engine
         /* @var EntryModel $model */
         foreach ($models as $model) {
 
+            if (!$model->isSearchable()) {
+                continue;
+            }
+
             /* @var StreamInterface $stream */
             $stream = $model->getStream();
 

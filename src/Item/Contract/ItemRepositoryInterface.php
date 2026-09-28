@@ -43,4 +43,11 @@ interface ItemRepositoryInterface extends EntryRepositoryInterface
      * @internal param $query
      */
     public function search(Builder $builder, array $options = []);
+
+    /**
+     * Return the IDs of streams enabled for search.
+     *
+     * @return array
+     */
+    public function searchableStreamIds();
 }
